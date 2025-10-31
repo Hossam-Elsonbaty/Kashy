@@ -192,6 +192,7 @@ const EditEntry = () => {
         <div>
           <Label className="mb-2">Category</Label>
           <Select
+            disabled
             onValueChange={(val) => handleChange("entryType", Number(val))}
             value={formData?.categoryName}
           >
@@ -199,8 +200,8 @@ const EditEntry = () => {
               <SelectValue placeholder="Select category" />
             </SelectTrigger>
             <SelectContent>
-              {/* <SelectItem value="0">Sales</SelectItem>
-              <SelectItem value="1">Refund</SelectItem> */}
+              <SelectItem value="0">Sales</SelectItem>
+              <SelectItem value="1">Refund</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -218,6 +219,7 @@ const EditEntry = () => {
               Cash
             </Button>
             <Button
+              disabled
               type="button"
               variant={
                 formData.paymentMethodName === "online" ? "default" : "outline"

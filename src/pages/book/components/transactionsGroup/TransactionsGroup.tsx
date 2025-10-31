@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
-import type { GroupedEntries } from '../../Book'
 import './_transactionsGroup.scss'
+import type { GroupedEntries } from '../../Book'
 
 const TransactionsGroup = ({entries}:{entries:GroupedEntries[]}) => {
   const navigate = useNavigate()

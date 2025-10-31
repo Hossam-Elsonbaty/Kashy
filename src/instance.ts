@@ -1,7 +1,6 @@
 import axios from "axios";
 import { handleChangeLoader } from "./store/slices/loaderSlice.js";
 import { Store } from "./store/Store.js";
-import { NavLink } from "react-router-dom";
 
 
 const instance = axios.create({

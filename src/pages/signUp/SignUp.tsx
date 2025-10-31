@@ -85,6 +85,7 @@ const Signup = () => {
           },
         }
       );
+      console.log(response);
       navigate("/login");
     } catch (error: unknown) {
       console.error("Signup error:", error);

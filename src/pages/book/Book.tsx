@@ -25,7 +25,7 @@ export interface GroupedEntries {
   groupDate: string;
 }
 export interface BookEntries {
-  groupedEntries?: GroupedEntries[];
+  groupedEntries?: GroupedEntries[] ;
   id: string;
   name: string;
   netBalance: number;
@@ -83,7 +83,7 @@ const Book = () => {
         <span>Showing {bookData?.totalEntries} entries</span>
         <span></span>
       </div>
-      <TransactionsGroup entries={bookData?.groupedEntries} />
+      <TransactionsGroup entries={bookData?.groupedEntries ?? []}/>
       <footer>
         <button className="btn" onClick={()=>handleNavigate("in")}>
           <FiPlus />

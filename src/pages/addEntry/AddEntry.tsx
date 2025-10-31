@@ -19,7 +19,8 @@ const AddEntry = () => {
     creationDate: format(new Date(), "yyyy-MM-dd"),
     creationTime: format(new Date(), "HH:mm:ss"),
     name: "",
-    paymentMethodName:"cash"
+    paymentMethodName:"cash",
+    categoryId:''
   })
   const handleChange = (field: string, value: string | number) => {
     setFormData(prev => ({ ...prev, [field]: value }))
@@ -42,7 +43,7 @@ const AddEntry = () => {
         navigate(`/book/${id}`)
       }, 500);
     })
-    .catch(err=>toast.error("Operation failed"))
+    .catch(err=>toast.error("Operation failed" + err))
   }
   console.log(location,type,id);
   
@@ -109,13 +110,13 @@ const AddEntry = () => {
         {/* Category */}
         <div>
           <Label className="mb-2">Category</Label>
-          <Select onValueChange={(val) => handleChange("entryType", Number(val))} >
+          <Select disabled onValueChange={(val) => handleChange("categoryId", val)} >
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Select category" />
             </SelectTrigger>
             <SelectContent>
-              {/* <SelectItem value="0">Sales</SelectItem>
-              <SelectItem value="1">Refund</SelectItem> */}
+              <SelectItem value="0">Sales</SelectItem>
+              <SelectItem value="1">Refund</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -131,6 +132,7 @@ const AddEntry = () => {
               Cash
             </Button>
             <Button
+              disabled
               type="button"
               variant={formData.paymentMethodName === "online" ? "default" : "outline"}
               onClick={() => handleChange("paymentMethodName", 1)}
