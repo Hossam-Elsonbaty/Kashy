@@ -57,7 +57,7 @@ const Book = ({ item }: { item: Item }) => {
         handleDelete={handleDeleteEntry}
       />
       <section
-        className="book-cell"
+        className="book-cell mt-2"
         key={item.id}
       >
         <div className="i-holder flex-center">

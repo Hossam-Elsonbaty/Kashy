@@ -3,7 +3,7 @@ import { IoSearchSharp } from "react-icons/io5";
 import './_filter.scss'
 const Filter = () => {
   return (
-    <section className="filter-home bg-amber-50">
+    <section className="filter-home bg-white">
       <p>Your Books</p>
       <div className="btns">
         <button className="btn"><FiFilter /></button>
