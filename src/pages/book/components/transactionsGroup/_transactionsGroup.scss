@@ -1,0 +1,60 @@
+.transactions-group{
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  .entries-group{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    &>p{
+      color: var(--text-color);
+      font-weight: 700;
+      font-size: 12px;
+    }
+    .entry {
+      background-color:var(--background-w-gray);
+      border-radius: 8px;
+      .entry-method{
+        color: var(--primary-foreground);
+        width: 73px;
+        font-size: 12px;
+        padding: 3px;
+        text-align: center;
+        border-bottom-right-radius:5px ;
+        border-bottom-left-radius: 5px;
+        margin: auto;
+        background-color: var(--primary);
+      }
+      .entry-info{
+        display: flex;
+        justify-content: space-between;
+        padding: 4px 8px;
+        .entry-name{
+          font-size: 14px;
+          font-weight: 600;
+          color: var(--dark-gray);
+          text-transform: capitalize;
+        }
+        .entry-total{
+          width: fit-content;
+          margin-left: auto;
+          font-size: 16px;
+        }
+      }
+      .entry-date{
+        font-size: 10px;
+        span{
+          &:last-child{
+            color: var(--text-color);
+            font-weight: 700;
+            margin-left: 4px;
+            font-size: 8px;
+          }
+        }
+        padding: 8px ;
+        border-top:1px solid var(--border-color);
+      }
+    }
+  }
+}

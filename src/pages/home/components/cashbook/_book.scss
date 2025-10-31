@@ -1,0 +1,39 @@
+section.book-cell{
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  .i-holder{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--icon-background);
+    svg{
+      font-size: 24px;
+      color: var(--main-color);
+    }
+  }
+  .book-info {
+    p{
+      &:first-child{
+        font-size: 16px;
+        color: var(--color-neutral-300);
+      }
+      &:last-child{
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--text-color);
+      }
+    }
+  }
+  .book-price {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-left: auto;
+    p{
+      color: rgb(3, 158, 93);
+      font-weight: bold;
+    }
+  }
+}

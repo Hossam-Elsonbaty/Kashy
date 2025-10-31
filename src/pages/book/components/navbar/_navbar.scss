@@ -1,0 +1,29 @@
+nav.book-navbar {
+  position: sticky;
+  top: 0;
+  background-color: oklch(100% 0.00011 271.152);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid var(--border-color);
+  .right{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .left{
+    p{
+      &:first-child{
+        text-transform: capitalize;
+        font-size: 14px;
+        font-weight: 700;
+      }
+      &:last-child{
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--text-color);
+      }
+    }
+  }
+}
