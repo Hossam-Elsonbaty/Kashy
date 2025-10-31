@@ -17,7 +17,7 @@ const Navbar = () => {
   const userData:UserDataModel | null = userDataStr? JSON.parse(userDataStr) : null;
   console.log(userData);
   return (
-    <nav className="home-nav bg-amber-50">
+    <nav className="home-nav bg-white">
       <img src={userData?.pictureUrl? userData.pictureUrl : logo} alt="userImg" />
       <div className="user-info">
         <p className="text-stone-900">{userData?.fullName}</p>

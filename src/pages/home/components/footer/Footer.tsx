@@ -6,7 +6,7 @@ const Footer = () => {
   const [activeTab, setActiveTab] = useState<'cashbooks' | 'settings'>('cashbooks');
   
   return (
-    <footer className="home-footer bg-amber-50">
+    <footer className="home-footer bg-white">
       <div 
         onClick={() => setActiveTab('cashbooks')} 
         className={`col flex-center ${activeTab === 'cashbooks' ? 'active' : ''}`}
