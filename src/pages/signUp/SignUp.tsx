@@ -142,9 +142,9 @@ const Signup = () => {
           )}
           <button type="button" className="absolute right-5 " onClick={()=>setShowPassword(!showPassword)}>
             {showPassword?
-            <FaRegEye />
+            <FaRegEye className="icon"/>
             :
-            <FaRegEyeSlash />
+            <FaRegEyeSlash className="icon"/>
             }
           </button>
         </div>
@@ -163,9 +163,9 @@ const Signup = () => {
           )}
           <button type="button" className="absolute right-5 " onClick={()=>setShowConfirmPassword(!showConfirmPassword)}>
             {showConfirmPassword?
-            <FaRegEye />
+            <FaRegEye className="icon"/>
             :
-            <FaRegEyeSlash />
+            <FaRegEyeSlash className="icon"/>
             }
           </button>
         </div>

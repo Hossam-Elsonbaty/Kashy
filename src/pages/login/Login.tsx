@@ -70,7 +70,7 @@ const Login = () => {
         localStorage.setItem("accessToken", response.data.accessToken);
         localStorage.setItem("refreshToken", response.data.refreshToken);
       }
-      navigate("/");
+      navigate("/",{ replace: true });
     } catch (error: unknown) {
       console.log(error);
       setIsErrorSubmit(true)
@@ -107,9 +107,9 @@ const Login = () => {
           />
           <button type="button" className="absolute right-5 " onClick={()=>setShowPassword(!showPassword)}>
             {showPassword?
-            <FaRegEye />
+            <FaRegEye className="icon"/>
             :
-            <FaRegEyeSlash />
+            <FaRegEyeSlash className="icon"/>
             }
           </button>
           {errors.password && <span className="error-message">{errors.password}</span>}
