@@ -138,11 +138,11 @@ const EditEntry = () => {
           </Button>
         </div>
         {/* Date and Time */}
-        <div className="flex items-center justify-between gap-3">
+        <div className="flex items-center justify-between gap-1">
           <div className="flex-1">
             <Label>Date</Label>
             <Input
-              className="mt-2"
+              className="mt-2 p-1"
               type="date"
               value={formData.creationDate}
               onChange={(e) => handleChange("creationDate", e.target.value)}
@@ -151,7 +151,7 @@ const EditEntry = () => {
           <div className="flex-1">
             <Label>Time</Label>
             <Input
-              className="mt-2"
+              className="mt-2 p-1"
               type="time"
               value={formData.creationTime}
               onChange={(e) => handleChange("creationTime", e.target.value)}

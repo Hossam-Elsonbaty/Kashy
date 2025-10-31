@@ -31,8 +31,10 @@ const Book = ({ item }: { item: Item }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false)
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const handleDeleteEntry = () => {
+    console.log(item.id);
+    
     instance
-      .delete(`/api/cashbook/${item.id}`)
+      .delete(`/api/Cashbook/${item.id}?deleteRelated=true`)
       .then((response) => {
         console.log(response.data);
         toast.success("Successfully deleted");
