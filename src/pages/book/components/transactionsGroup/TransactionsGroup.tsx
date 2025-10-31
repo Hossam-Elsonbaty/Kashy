@@ -10,7 +10,7 @@ const TransactionsGroup = ({entries}:{entries:GroupedEntries[]}) => {
         <div className='entries-group'>
           <p>{item.groupDate}</p>
           {item?.entries?.map(entry=>
-            <div className='entry' onClick={()=>navigate(`${entry.id}`)}>
+            <div className='entry bg-gray-100' onClick={()=>navigate(`${entry.id}`)}>
               <p className='entry-method'>{entry.entryType===1?'Cash in':'Cash out'}</p>
               <p className='entry-info'>
                 <span className='entry-name'>{entry.name}</span>
