@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { cashbooksAction } from '../../store/slices/cashbooksSlice';
 import Loader from '../../components/Loader';
 import type { AppDispatch, RootState } from '../../store/Store';
+import { EmptyState } from '../../components/EmptyData';
 const Home = () => {
   const dispatch = useDispatch<AppDispatch>(); 
   const dataTest = useSelector((state: RootState) => state.cashbooks.cashbooks)
@@ -17,19 +18,25 @@ const Home = () => {
     dispatch(cashbooksAction())
   },[dispatch])
   console.log(dataTest);
+  const handleTest = ()=>{}
   return (
     <main className='home'>
       {isLoading?
       <Loader/>
       :
       <>
-        <div className="container">
+        <div className="flex flex-col h-dvh">
           <Navbar/>
-          <AddBtn/>
           <Filter/>
-          {dataTest?.map((item,i) => 
-            <Book item={item} key={i} />
-          )}
+          <AddBtn/>
+          {dataTest.length > 0 
+          ?
+            dataTest?.map((item,i) => 
+              <Book item={item} key={i} />
+            )
+          :
+            <EmptyState />
+          }
         </div>
         <Footer/>
       </>

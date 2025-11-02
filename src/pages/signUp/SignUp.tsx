@@ -86,7 +86,7 @@ const Signup = () => {
         }
       );
       console.log(response);
-      navigate("/login");
+      navigate("/login", {replace:true});
     } catch (error: unknown) {
       console.error("Signup error:", error);
       setIsErrorSubmit(true);

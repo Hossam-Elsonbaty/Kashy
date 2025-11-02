@@ -24,8 +24,8 @@ export const AddBtn = () => {
   return (
     <>
       <div onClick={() => setOpen(true)} className={`float-btn bg-amber-400 ${isMinimized ? 'minimized' : ''}`}>
-        <IoMdAdd className='text-amber-700'/>
-        <p className='text-amber-700'>Add New Book</p>
+        <IoMdAdd className='text-primary-foreground'/>
+        <p className='text-primary-foreground'>Add New Book</p>
       </div>
       <DialogDemo open={open} onOpenChange={setOpen} />
     </>
