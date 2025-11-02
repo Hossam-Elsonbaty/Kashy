@@ -53,9 +53,9 @@ const Signup = () => {
       newErrors.password = "Password is required";
     } else if (formData.password.length < 8) {
       newErrors.password = "Password must be at least 8 characters";
-    } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(formData.password)) {
+    } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])/.test(formData.password)) {
       newErrors.password =
-        "Password must contain uppercase, lowercase, and number";
+        "Password must contain uppercase, lowercase, number and special character.";
     }
     if (!formData.confirmPassword) {
       newErrors.confirmPassword = "Please confirm your password";
@@ -127,47 +127,51 @@ const Signup = () => {
             <span className="error-message">{errors.email}</span>
           )}
         </div>
-        <div className="input-group password-input flex items-center">
-          <input
-            type={showPassword?"text" : "password"}
-            name="password"
-            placeholder="Password"
-            value={formData.password}
-            onChange={handleChange}
-            className={errors.password ? "error" : ""}
-            required
-          />
+        <div className="input-group password-input flex items-center flex-col">
+          <div className="flex items-center">
+            <input
+              type={showPassword?"text" : "password"}
+              name="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleChange}
+              className={errors.password ? "error" : ""}
+              required
+            />
+            <button type="button" className="absolute right-5 " onClick={()=>setShowPassword(!showPassword)}>
+              {showPassword?
+              <FaRegEye className="icon"/>
+              :
+              <FaRegEyeSlash className="icon"/>
+              }
+            </button>
+          </div>
           {errors.password && (
             <span className="error-message">{errors.password}</span>
           )}
-          <button type="button" className="absolute right-5 " onClick={()=>setShowPassword(!showPassword)}>
-            {showPassword?
-            <FaRegEye className="icon"/>
-            :
-            <FaRegEyeSlash className="icon"/>
-            }
-          </button>
         </div>
-        <div className="input-group password-input flex items-center">
-          <input
-            type={showConfirmPassword ? "text" : "password"}
-            name="confirmPassword"
-            placeholder="Confirm Password"
-            value={formData.confirmPassword}
-            onChange={handleChange}
-            className={errors.confirmPassword ? "error" : ""}
-            required
-          />
+        <div className="input-group password-input flex items-center flex-col">
+          <div className="flex items-center">
+            <input
+              type={showConfirmPassword ? "text" : "password"}
+              name="confirmPassword"
+              placeholder="Confirm Password"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              className={errors.confirmPassword ? "error" : ""}
+              required
+            />
+            <button type="button" className="absolute right-5 " onClick={()=>setShowConfirmPassword(!showConfirmPassword)}>
+              {showConfirmPassword?
+              <FaRegEye className="icon"/>
+              :
+              <FaRegEyeSlash className="icon"/>
+            }
+            </button>
+          </div>
           {errors.confirmPassword && (
             <span className="error-message">{errors.confirmPassword}</span>
           )}
-          <button type="button" className="absolute right-5 " onClick={()=>setShowConfirmPassword(!showConfirmPassword)}>
-            {showConfirmPassword?
-            <FaRegEye className="icon"/>
-            :
-            <FaRegEyeSlash className="icon"/>
-            }
-          </button>
         </div>
         <button className="btn" type="submit" disabled={isLoading}>
           {isLoading ? "Creating Account..." : "Sign up"}
