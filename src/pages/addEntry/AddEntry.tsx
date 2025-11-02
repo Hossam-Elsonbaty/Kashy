@@ -48,7 +48,7 @@ const AddEntry = () => {
   console.log(location,type,id);
   
   return (
-    <main className="max-w-md mx-auto p-5 space-y-5 flex flex-col gap-10 h-dvh">
+    <main className="max-w-md mx-auto p-3 space-y-5 flex flex-col gap-10 h-dvh">
       <Toaster position="top-center"/>
       <h2 className={`text-center ${type === "in"? "text-green-700" :"text-red-700"}  font-semibold text-lg`}>
         {type === "in"? "Add Cash In Entry" : "Add Cash Out Entry"}
@@ -58,7 +58,7 @@ const AddEntry = () => {
         <div className="flex items-center justify-between gap-3">
           <div className="flex-1">
             <Label>Date</Label>
-            <div className="relative mt-2">
+            <div className="relative mt-2 max-w-36">
               <Input
                 type="date"
                 value={formData.creationDate}
@@ -68,7 +68,7 @@ const AddEntry = () => {
           </div>
           <div className="flex-1">
             <Label>Time</Label>
-            <div className="relative mt-2">
+            <div className="relative mt-2 max-w-39">
               <Input
                 type="time"
                 value={formData.creationTime}

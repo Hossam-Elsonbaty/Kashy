@@ -42,7 +42,7 @@
 }
 
 :root {
-  --icon-background : oklch(45.805% 0.09397 84.057 / 0.123);
+  --icon-background : #70520014;
   --main-color : oklch(0.795 0.184 86.047);
   --background-w-gray:oklch(91.279% 0.0001 271.152);
   --text-color : rgba(0, 0, 0, 0.499);
@@ -124,7 +124,7 @@
   }
   body {
     font-family: "Rubik", sans-serif;
-    @apply bg-background text-foreground;
+    /* @apply bg-background text-foreground; */
   }
 }
 .btn{

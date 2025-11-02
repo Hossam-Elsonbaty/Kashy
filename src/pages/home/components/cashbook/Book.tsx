@@ -1,4 +1,3 @@
-import { MdBook } from "react-icons/md";
 import { TbDotsVertical } from "react-icons/tb";
 import "./_book.scss";
 import { useNavigate } from "react-router-dom";
@@ -6,7 +5,7 @@ import ConfirmDelete from "../../../../components/ConfirmDelete";
 import instance from "../../../../instance";
 import toast, { Toaster } from "react-hot-toast";
 import { useState } from "react";
-
+import { IoMdWallet } from "react-icons/io";
 interface Item {
   balance: number;
   createdAt: string;
@@ -63,12 +62,12 @@ const Book = ({ item }: { item: Item }) => {
         key={item.id}
       >
         <div className="i-holder flex-center">
-          <MdBook />
+          <IoMdWallet />
         </div>
         <div className="book-info"
         onClick={() => navigate(`/book/${item.id}?name=${item.name}`)}
         >
-          <p>{item.name}</p>
+          <p className="capitalize">{item.name}</p>
           <p>{item.updatedAt}</p>
         </div>
         <div className="book-price relative">
@@ -93,7 +92,7 @@ const Book = ({ item }: { item: Item }) => {
               </li>
             </ul>
           </div>
-          <p>{item.balance}</p>
+          <p className={`${item.balance > 0? 'text-green-600' : 'text-red-600'}`}>{item.balance}</p>
           <button onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
             <TbDotsVertical className="w-5 h-5 text-gray-800" />
           </button>

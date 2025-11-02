@@ -20,8 +20,8 @@ section.book-cell{
         color: var(--color-neutral-300);
       }
       &:last-child{
-        font-size: 12px;
-        font-weight: 700;
+        font-size: 10px;
+        font-weight: 500;
         color: var(--text-color);
       }
     }
@@ -31,9 +31,9 @@ section.book-cell{
     align-items: center;
     gap: 15px;
     margin-left: auto;
-    p{
-      color: rgb(3, 158, 93);
-      font-weight: bold;
-    }
+    // p{
+    //   color: rgb(3, 158, 93);
+    //   font-weight: 500;
+    // }
   }
 }

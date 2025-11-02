@@ -75,7 +75,7 @@ const Book = () => {
         </div>
         <button className="btn view-reports">
           <p>View reports</p>
-          <IoIosArrowForward />
+          <IoIosArrowForward className="icon"/>
         </button>
       </section>
       <div className="entries-line">

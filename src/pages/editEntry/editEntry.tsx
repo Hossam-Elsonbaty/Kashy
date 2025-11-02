@@ -102,7 +102,7 @@ const EditEntry = () => {
       </main>
     )
   return (
-    <main className="max-w-md mx-auto p-5 space-y-5 flex flex-col gap-3 h-dvh">
+    <main className="max-w-md mx-auto p-3 space-y-5 flex flex-col gap-3 h-dvh">
       <Toaster position="top-center" />
       <ConfirmDelete isOpen={isModalOpen} handleOpen={()=>setIsModalOpen(false)} handleDelete={handleDeleteEntry}/>
       <div className="flex items-center justify-between p-2 border-b bg-white">
@@ -141,21 +141,25 @@ const EditEntry = () => {
         <div className="flex items-center justify-between gap-1">
           <div className="flex-1">
             <Label>Date</Label>
-            <Input
-              className="mt-2 p-1"
-              type="date"
-              value={formData.creationDate}
-              onChange={(e) => handleChange("creationDate", e.target.value)}
-            />
+            <div className="relative mt-2 max-w-36">
+              <Input
+                className="mt-2 p-1"
+                type="date"
+                value={formData.creationDate}
+                onChange={(e) => handleChange("creationDate", e.target.value)}
+              />
+            </div>
           </div>
           <div className="flex-1">
             <Label>Time</Label>
-            <Input
-              className="mt-2 p-1"
-              type="time"
-              value={formData.creationTime}
-              onChange={(e) => handleChange("creationTime", e.target.value)}
-            />
+            <div className="relative mt-2 max-w-36">
+              <Input
+                className="mt-2 p-1"
+                type="time"
+                value={formData.creationTime}
+                onChange={(e) => handleChange("creationTime", e.target.value)}
+              />
+            </div>
           </div>
         </div>
         {/* Name */}
