@@ -102,10 +102,10 @@ const EditEntry = () => {
       </main>
     )
   return (
-    <main className="max-w-md mx-auto p-3 space-y-5 flex flex-col gap-3 h-dvh">
+    <main className="max-w-md mx-auto flex flex-col gap-3 h-dvh">
       <Toaster position="top-center" />
       <ConfirmDelete isOpen={isModalOpen} handleOpen={()=>setIsModalOpen(false)} handleDelete={handleDeleteEntry}/>
-      <div className="flex items-center justify-between p-2 border-b bg-white">
+      <div className="flex items-center justify-between p-4 border-b bg-white">
         <div className="flex items-center gap-3">
           <button onClick={()=>navigate(-1)}>
             <ArrowLeft className="w-5 h-5 text-gray-700 cursor-pointer" />
@@ -118,7 +118,7 @@ const EditEntry = () => {
           <PiTrashSimpleBold className="w-5 h-5 text-red-800" />
         </button>
       </div>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-10 h-full">
+      <form onSubmit={handleSubmit} className="flex flex-col p-3 gap-10 h-full">
         <div className="flex gap-2">
           <Button
             type="button"

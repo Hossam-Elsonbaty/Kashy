@@ -48,12 +48,12 @@ const AddEntry = () => {
   console.log(location,type,id);
   
   return (
-    <main className="max-w-md mx-auto p-3 space-y-5 flex flex-col gap-10 h-dvh">
+    <main className="max-w-md mx-auto space-y-5 flex flex-col gap-0 h-dvh">
       <Toaster position="top-center"/>
-      <h2 className={`text-center ${type === "in"? "text-green-700" :"text-red-700"}  font-semibold text-lg`}>
+      <h2 className={`text-center ${type === "in"? "text-green-700" :"text-red-700"}  font-semibold p-4 text-lg`}>
         {type === "in"? "Add Cash In Entry" : "Add Cash Out Entry"}
       </h2>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-10 h-full" >
+      <form onSubmit={handleSubmit} className="flex flex-col p-3 gap-10 h-full" >
         {/* Date and Time Row */}
         <div className="flex items-center justify-between gap-3">
           <div className="flex-1">
