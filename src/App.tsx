@@ -7,6 +7,7 @@ import AddEntry from './pages/addEntry/AddEntry';
 import PageNotFound from './components/PageNotFound';
 import EntryDetails from './pages/entryDetails/EntryDetails';
 import EditEntry from './pages/editEntry/editEntry';
+import Settings from './pages/Settings/settings';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path="/sign-up" element={<Signup />} />
+      <Route path="/settings" element={<Settings />} />
       {/* <Route path="/book" element={<Book />} /> */} 
       <Route path="/book/:id" element={<Book />} />
       <Route path="/book/:id/add-cash-entry" element={<AddEntry />} />
