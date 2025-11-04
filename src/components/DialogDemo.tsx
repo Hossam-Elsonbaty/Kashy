@@ -11,6 +11,9 @@ import {
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import instance from "../instance";
+import { useDispatch } from "react-redux";
+import { cashbooksAction } from "../store/slices/cashbooksSlice";
+import type { AppDispatch } from "../store/Store";
 
 interface User {
   accessToken: string;
@@ -29,6 +32,7 @@ function DialogDemo({
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }) {
+  const dispatch = useDispatch<AppDispatch>()
   const userString = localStorage.getItem("user");
   const user: User | null = userString ? JSON.parse(userString) : null;
   const userId = user ? user.id : null;
@@ -56,6 +60,7 @@ function DialogDemo({
       });
       onOpenChange(false);
       console.log(res);
+      dispatch(cashbooksAction())
     } catch (err) {
       console.error("Error:", err);
     }

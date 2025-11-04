@@ -6,6 +6,9 @@ import instance from "../../../../instance";
 import toast, { Toaster } from "react-hot-toast";
 import { useState } from "react";
 import { IoMdWallet } from "react-icons/io";
+import { useDispatch } from "react-redux";
+import type { AppDispatch } from "../../../../store/Store";
+import { cashbooksAction } from "../../../../store/slices/cashbooksSlice";
 interface Item {
   balance: number;
   createdAt: string;
@@ -27,6 +30,7 @@ export interface CashBook {
   totalPages: number;
 }
 const Book = ({ item }: { item: Item }) => {
+  const dispatch = useDispatch<AppDispatch>();
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false)
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const handleDeleteEntry = () => {
@@ -38,10 +42,7 @@ const Book = ({ item }: { item: Item }) => {
         toast.success("Successfully deleted");
         setIsDropdownOpen(false);
         setIsModalOpen(false);
-        window.location.reload()
-        setTimeout(() => {
-          navigate(-1);
-        }, 600);
+        dispatch(cashbooksAction())
       })
       .catch((error) => {
         console.log(error);
@@ -92,7 +93,7 @@ const Book = ({ item }: { item: Item }) => {
               </li>
             </ul>
           </div>
-          <p className={`${item.balance > 0? 'text-green-600' : 'text-red-600'}`}>{item.balance}</p>
+          <p className={`${item.balance >= 0? 'text-green-600' : 'text-red-600'}`}>{item.balance}</p>
           <button onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
             <TbDotsVertical className="w-5 h-5 text-gray-800" />
           </button>

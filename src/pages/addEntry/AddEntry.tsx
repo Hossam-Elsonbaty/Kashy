@@ -40,7 +40,7 @@ const AddEntry = () => {
       console.log(res)
       toast.success("Successful operation")
       setTimeout(() => {
-        navigate(`/book/${id}`)
+        navigate(-1)
       }, 500);
     })
     .catch(err=>toast.error("Operation failed" + err))

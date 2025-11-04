@@ -18,7 +18,6 @@ const Home = () => {
     dispatch(cashbooksAction())
   },[dispatch])
   console.log(dataTest);
-  const handleTest = ()=>{}
   return (
     <main className='home'>
       {isLoading?
