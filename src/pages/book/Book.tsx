@@ -11,14 +11,14 @@ import { useNavigate, useParams } from "react-router-dom";
 interface Entries {
   amount: number;
   balanceAfter: number;
-  categoryName: null;
+  categoryName: string | null;
   createdAtDate: string;
   createdAtTime: string;
   createdBy: string;
   entryType: number;
   id: string;
   name: string;
-  paymentMethodName: null;
+  paymentMethodName: string | null;
 }
 export interface GroupedEntries {
   entries?: Entries[];

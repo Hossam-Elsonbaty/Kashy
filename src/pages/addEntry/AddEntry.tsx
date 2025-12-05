@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "../../components/ui/button"
 import { Input } from "../../components/ui/input"
 import { Label } from "../../components/ui/label"
@@ -7,12 +7,24 @@ import { format } from "date-fns"
 import { useLocation, useNavigate, useParams } from "react-router-dom"
 import instance from "../../instance"
 import toast, { Toaster } from 'react-hot-toast';
+import { useDispatch, useSelector } from "react-redux"
+import type { AppDispatch, RootState } from "../../store/Store"
+import { fetchCategoriesAction } from "../../store/slices/categoriesSlice"
+import { flattenCategories } from "../../lib/utils"
+
 const AddEntry = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const {id} = useParams()
+  const dispatch = useDispatch<AppDispatch>();
+  const { categories } = useSelector((state: RootState) => state.categories);
   const searchParams = new URLSearchParams(location.search);
   const type = searchParams.get("type");
+  const filteredCategories = categories.filter(
+    (cat) => cat.type === (type === "in" ? 1 : 0)
+  );
+  const flattenedCategories = flattenCategories(filteredCategories);
+
   const [formData, setFormData] = useState({
     cashbookId: id,
     amount:0,
@@ -22,6 +34,10 @@ const AddEntry = () => {
     paymentMethodName:"cash",
     categoryId:''
   })
+
+  useEffect(() => {
+    dispatch(fetchCategoriesAction());
+  }, [dispatch]);
   const handleChange = (field: string, value: string | number) => {
     setFormData(prev => ({ ...prev, [field]: value }))
   }
@@ -34,7 +50,8 @@ const AddEntry = () => {
       creationDate: formData.creationDate,
       creationTime: formData.creationTime,
       name: formData.name,
-      entryType: type==="in" ? 1 : 0
+      entryType: type==="in" ? 1 : 0,
+      categoryId: formData.categoryId || undefined
     })
     .then(res=>{
       console.log(res)
@@ -110,13 +127,25 @@ const AddEntry = () => {
         {/* Category */}
         <div>
           <Label className="mb-2">Category</Label>
-          <Select disabled onValueChange={(val) => handleChange("categoryId", val)} >
+          <Select 
+            //value={formData.categoryId || undefined} 
+            onValueChange={(val) => handleChange("categoryId", val)} 
+          >
             <SelectTrigger className="w-full">
-              <SelectValue placeholder="Select category" />
+              <SelectValue placeholder="Select category (optional)" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="0">Sales</SelectItem>
-              <SelectItem value="1">Refund</SelectItem>
+              {flattenedCategories.length === 0 ? (
+                <SelectItem value="" disabled>No categories available</SelectItem>
+              ) : (
+                flattenedCategories.map((category) => (
+                  <SelectItem key={category.id} value={category.id}>
+                    {"parentCategoryId" in category && category.parentCategoryId 
+                      ? `— ${category.name}` 
+                      : category.name}
+                  </SelectItem>
+                ))
+              )}
             </SelectContent>
           </Select>
         </div>
