@@ -11,9 +11,14 @@ import { ArrowLeft } from "lucide-react";
 import { PiTrashSimpleBold } from "react-icons/pi";
 import ConfirmDelete from "../../components/ConfirmDelete"
 import Loader from "../../components/Loader"
+import { useDispatch, useSelector } from "react-redux"
+import type { AppDispatch, RootState } from "../../store/Store"
+import { fetchCategoriesAction } from "../../store/slices/categoriesSlice"
 const EditEntry = () => {
   const { entryId } = useParams()
   const navigate = useNavigate()
+  const dispatch = useDispatch<AppDispatch>();
+  const { categories } = useSelector((state: RootState) => state.categories);
   const [loading, setLoading] = useState<boolean>(true)
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [formData, setFormData] = useState({
@@ -24,8 +29,17 @@ const EditEntry = () => {
     name: "",
     paymentMethodName: "cash",
     entryType: 1, 
+    categoryId: "",
     categoryName: "",
   })
+
+  const filteredCategories = categories.filter(
+    (cat) => cat.type === formData.entryType
+  );
+
+  useEffect(() => {
+    dispatch(fetchCategoriesAction());
+  }, [dispatch]);
   // Fetch entry data on mount
   useEffect(() => {
     console.log(entryId);
@@ -43,7 +57,8 @@ const EditEntry = () => {
           name: data.name,
           paymentMethodName: data.paymentMethodName || "cash",
           entryType: data.entryType,
-          categoryName:data.categoryName
+          categoryId: data.categoryId || "",
+          categoryName: data.categoryName || ""
         })
       })
       .catch((err) => {
@@ -81,8 +96,8 @@ const EditEntry = () => {
         creationTime: formData.creationTime,
         name: formData.name,
         entryType: formData.entryType,
+        categoryId: formData.categoryId || undefined,
         // paymentMethodName: formData.paymentMethodName,
-        // categoryName:formData.categoryName
       })
       .then(() => {
         toast.success("Entry updated successfully")
@@ -196,16 +211,22 @@ const EditEntry = () => {
         <div>
           <Label className="mb-2">Category</Label>
           <Select
-            disabled
-            onValueChange={(val) => handleChange("entryType", Number(val))}
-            value={formData?.categoryName}
+            value={formData.categoryId || undefined} // this line is giving the following error: ncaught Error: A <Select.Item /> must have a value prop that is not an empty string. This is because the Select value can be set to an empty string to clear the selection and show the placeholder
+            onValueChange={(val) => handleChange("categoryId", val)}
           >
             <SelectTrigger className="w-full">
-              <SelectValue placeholder="Select category" />
+              <SelectValue placeholder="Select category (optional)" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="0">Sales</SelectItem>
-              <SelectItem value="1">Refund</SelectItem>
+              {filteredCategories.length === 0 ? (
+                <SelectItem value="" disabled>No categories available</SelectItem>
+              ) : (
+                filteredCategories.map((category) => (
+                  <SelectItem key={category.id} value={category.id}>
+                    {category.name}
+                  </SelectItem>
+                ))
+              )}
             </SelectContent>
           </Select>
         </div>

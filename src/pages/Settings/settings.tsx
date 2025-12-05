@@ -1,8 +1,11 @@
 import { Button } from "../../components/ui/button";
 import { Separator } from "../../components/ui/separator";
-import { ChevronRight, Pencil, LogOut, Users, HelpCircle, Settings as SettingsIcon, User } from "lucide-react";
+import { ChevronRight, Pencil, LogOut, Users, HelpCircle, Settings as SettingsIcon, User, Tag } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export default function Settings() {
+  const navigate = useNavigate();
+  
   return (
     <main className="max-w-md mx-auto bg-white min-h-screen flex flex-col gap-5">
       {/* Header */}
@@ -58,6 +61,17 @@ export default function Settings() {
             <div className="flex items-center gap-3">
               <HelpCircle className="w-5 h-5 text-blue-500" />
               <span className="text-sm font-medium">About CashBook</span>
+            </div>
+            <ChevronRight className="w-4 h-4 text-gray-400" />
+          </div>
+
+          <div 
+            className="flex justify-between items-center py-3 border-b cursor-pointer"
+            onClick={() => navigate("/categories")}
+          >
+            <div className="flex items-center gap-3">
+              <Tag className="w-5 h-5 text-blue-500" />
+              <span className="text-sm font-medium">Categories</span>
             </div>
             <ChevronRight className="w-4 h-4 text-gray-400" />
           </div>

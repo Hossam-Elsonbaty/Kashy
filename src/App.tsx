@@ -8,6 +8,7 @@ import PageNotFound from './components/PageNotFound';
 import EntryDetails from './pages/entryDetails/EntryDetails';
 import EditEntry from './pages/editEntry/editEntry';
 import Settings from './pages/Settings/settings';
+import Categories from './pages/categories/Categories';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/sign-up" element={<Signup />} />
       <Route path="/settings" element={<Settings />} />
+      <Route path="/categories" element={<Categories />} />
       {/* <Route path="/book" element={<Book />} /> */} 
       <Route path="/book/:id" element={<Book />} />
       <Route path="/book/:id/add-cash-entry" element={<AddEntry />} />
