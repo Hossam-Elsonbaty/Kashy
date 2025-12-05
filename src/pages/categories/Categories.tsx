@@ -10,7 +10,8 @@ import {
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import { Label } from "../../components/ui/label";
-import { ArrowLeft, Plus, Pencil, Trash2, ArrowUpCircle, ArrowDownCircle } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../components/ui/select";
+import { ArrowLeft, Plus, Pencil, Trash2, ArrowUpCircle, ArrowDownCircle, ChevronRight, ChevronDown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import {
@@ -25,6 +26,7 @@ import ConfirmDelete from "../../components/ConfirmDelete";
 import Loader from "../../components/Loader";
 import { Tabs, TabsList, TabsTrigger } from "../../components/ui/tabs";
 import type { Category } from "../../models/category";
+import { flattenCategories } from "../../lib/utils";
 
 export default function Categories() {
   const navigate = useNavigate();
@@ -42,6 +44,8 @@ export default function Categories() {
   // Form State
   const [categoryName, setCategoryName] = useState("");
   const [categoryDescription, setCategoryDescription] = useState("");
+  const [selectedParentId, setSelectedParentId] = useState<string | undefined>(undefined);
+  const [expandedCategories, setExpandedCategories] = useState<string[]>([]);
 
   useEffect(() => {
     dispatch(fetchCategoriesAction());
@@ -51,6 +55,16 @@ export default function Categories() {
     (cat) => cat.type === (activeTab === "income" ? 1 : 0)
   );
 
+  const flattenedFilteredCategories = flattenCategories(filteredCategories);
+
+  const toggleExpand = (categoryId: string) => {
+    setExpandedCategories(prev => 
+      prev.includes(categoryId) 
+        ? prev.filter(id => id !== categoryId)
+        : [...prev, categoryId]
+    );
+  };
+
   const handleCreate = () => {
     if (!categoryName.trim()) {
       toast.error("Category name is required");
@@ -59,7 +73,8 @@ export default function Categories() {
     dispatch(createCategoryAction({
       name: categoryName.trim(),
       description: categoryDescription.trim() || undefined,
-      type: activeTab === "income" ? 1 : 0
+      type: activeTab === "income" ? 1 : 0,
+      parentId: selectedParentId === "none" ? undefined : selectedParentId
     }))
       .unwrap()
       .then(() => {
@@ -67,6 +82,7 @@ export default function Categories() {
         setIsCreateDialogOpen(false);
         setCategoryName("");
         setCategoryDescription("");
+        setSelectedParentId(undefined);
       })
       .catch((err) => {
         toast.error("Failed to create category");
@@ -85,7 +101,7 @@ export default function Categories() {
         name: categoryName.trim(),
         description: categoryDescription.trim() || undefined,
         type: selectedCategory.type,
-        parentId: selectedCategory.parentCategoryId || undefined,
+        parentId: selectedParentId === "none" ? undefined : selectedParentId,
       })
     )
       .unwrap()
@@ -95,6 +111,7 @@ export default function Categories() {
         setSelectedCategory(null);
         setCategoryName("");
         setCategoryDescription("");
+        setSelectedParentId(undefined);
       })
       .catch((err) => {
         toast.error("Failed to update category");
@@ -121,6 +138,7 @@ export default function Categories() {
     setSelectedCategory(category);
     setCategoryName(category.name);
     setCategoryDescription(category.description || "");
+    setSelectedParentId(category.parentCategoryId || undefined);
     setIsEditDialogOpen(true);
   };
 
@@ -192,37 +210,81 @@ export default function Categories() {
         ) : (
           <div className="space-y-2">
             {filteredCategories.map((category) => (
-              <div
-                key={category.id}
-                className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50"
-              >
-                <div>
-                  <div className="font-medium">{category.name}</div>
-                  {category.description && (
-                    <div className="text-xs text-gray-500">{category.description}</div>
-                  )}
-                  {category.subCategories && category.subCategories.length > 0 && (
-                     <div className="text-xs text-gray-400 mt-1">
-                       {category.subCategories.length} sub-categories
-                     </div>
-                  )}
+              <div key={category.id} className="border rounded-lg overflow-hidden">
+                <div
+                  className="flex items-center justify-between p-4 hover:bg-gray-50 cursor-pointer"
+                  onClick={() => toggleExpand(category.id)}
+                >
+                  <div className="flex items-center gap-2">
+                    {category.subCategories && category.subCategories.length > 0 ? (
+                      expandedCategories.includes(category.id) ? (
+                        <ChevronDown className="w-4 h-4 text-gray-500" />
+                      ) : (
+                        <ChevronRight className="w-4 h-4 text-gray-500" />
+                      )
+                    ) : (
+                      <div className="w-4" /> // spacer
+                    )}
+                    <div>
+                      <div className="font-medium">{category.name}</div>
+                      {category.description && (
+                        <div className="text-xs text-gray-500">{category.description}</div>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => openEditDialog(category)}
+                    >
+                      <Pencil className="w-4 h-4 text-blue-600" />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => openDeleteDialog(category)}
+                    >
+                      <Trash2 className="w-4 h-4 text-red-600" />
+                    </Button>
+                  </div>
                 </div>
-                <div className="flex items-center gap-2">
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => openEditDialog(category)}
-                  >
-                    <Pencil className="w-4 h-4 text-blue-600" />
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => openDeleteDialog(category)}
-                  >
-                    <Trash2 className="w-4 h-4 text-red-600" />
-                  </Button>
-                </div>
+                
+                {/* Subcategories */}
+                {expandedCategories.includes(category.id) && category.subCategories && (
+                  <div className="bg-gray-50 border-t">
+                    {category.subCategories.map((sub) => (
+                      <div
+                        key={sub.id}
+                        className="flex items-center justify-between p-3 pl-12 hover:bg-gray-50 border-b last:border-b-0"
+                      >
+                        <div>
+                          <div className="font-medium text-sm">{sub.name}</div>
+                          {sub.description && (
+                            <div className="text-xs text-gray-500">{sub.description}</div>
+                          )}
+                        </div>
+                         {/* Subcategory Actions */}
+                        <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => openEditDialog(sub as any)}
+                          >
+                            <Pencil className="w-4 h-4 text-blue-600" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => openDeleteDialog(sub as any)}
+                          >
+                            <Trash2 className="w-4 h-4 text-red-600" />
+                          </Button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             ))}
           </div>
@@ -263,6 +325,23 @@ export default function Categories() {
                 placeholder="Short description"
                 className="mt-2"
               />
+            </div>
+            <div>
+              <Label htmlFor="parent-category">Parent Category</Label>
+              <Select
+                value={selectedParentId || "none"}
+                onValueChange={(val) => setSelectedParentId(val === "none" ? undefined : val)}
+              >
+                <SelectTrigger className="mt-2">
+                  <SelectValue placeholder="None (Top Level)" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="none">None (Top Level)</SelectItem>
+                  {flattenedFilteredCategories.map((cat) => (
+                    <SelectItem key={cat.id} value={cat.id}>{cat.name}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
           </div>
           <DialogFooter>
@@ -315,6 +394,29 @@ export default function Categories() {
                 placeholder="Short description"
                 className="mt-2"
               />
+            </div>
+            <div>
+              <Label htmlFor="edit-parent-category">Parent Category</Label>
+              <Select
+                value={selectedParentId || "none"}
+                onValueChange={(val) => setSelectedParentId(val === "none" ? undefined : val)}
+                disabled={!!selectedCategory?.subCategories?.length}
+              >
+                <SelectTrigger className="mt-2">
+                  <SelectValue placeholder="None (Top Level)" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="none">None (Top Level)</SelectItem>
+                  {flattenedFilteredCategories
+                    .filter(cat => cat.id !== selectedCategory?.id)
+                    .map((cat) => (
+                    <SelectItem key={cat.id} value={cat.id}>{cat.name}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              {!!selectedCategory?.subCategories?.length && (
+                <p className="text-xs text-red-500 mt-1">Cannot change parent of a category that has subcategories.</p>
+              )}
             </div>
           </div>
           <DialogFooter>

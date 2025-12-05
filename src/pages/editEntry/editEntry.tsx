@@ -14,6 +14,7 @@ import Loader from "../../components/Loader"
 import { useDispatch, useSelector } from "react-redux"
 import type { AppDispatch, RootState } from "../../store/Store"
 import { fetchCategoriesAction } from "../../store/slices/categoriesSlice"
+import { flattenCategories } from "../../lib/utils"
 const EditEntry = () => {
   const { entryId } = useParams()
   const navigate = useNavigate()
@@ -36,6 +37,7 @@ const EditEntry = () => {
   const filteredCategories = categories.filter(
     (cat) => cat.type === formData.entryType
   );
+  const flattenedCategories = flattenCategories(filteredCategories);
 
   useEffect(() => {
     dispatch(fetchCategoriesAction());
@@ -218,12 +220,14 @@ const EditEntry = () => {
               <SelectValue placeholder="Select category (optional)" />
             </SelectTrigger>
             <SelectContent>
-              {filteredCategories.length === 0 ? (
+              {flattenedCategories.length === 0 ? (
                 <SelectItem value="" disabled>No categories available</SelectItem>
               ) : (
-                filteredCategories.map((category) => (
+                flattenedCategories.map((category) => (
                   <SelectItem key={category.id} value={category.id}>
-                    {category.name}
+                    {"parentCategoryId" in category && category.parentCategoryId 
+                      ? `— ${category.name}` 
+                      : category.name}
                   </SelectItem>
                 ))
               )}

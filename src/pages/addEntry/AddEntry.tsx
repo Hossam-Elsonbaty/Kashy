@@ -10,6 +10,8 @@ import toast, { Toaster } from 'react-hot-toast';
 import { useDispatch, useSelector } from "react-redux"
 import type { AppDispatch, RootState } from "../../store/Store"
 import { fetchCategoriesAction } from "../../store/slices/categoriesSlice"
+import { flattenCategories } from "../../lib/utils"
+
 const AddEntry = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -21,6 +23,8 @@ const AddEntry = () => {
   const filteredCategories = categories.filter(
     (cat) => cat.type === (type === "in" ? 1 : 0)
   );
+  const flattenedCategories = flattenCategories(filteredCategories);
+
   const [formData, setFormData] = useState({
     cashbookId: id,
     amount:0,
@@ -131,12 +135,14 @@ const AddEntry = () => {
               <SelectValue placeholder="Select category (optional)" />
             </SelectTrigger>
             <SelectContent>
-              {filteredCategories.length === 0 ? (
+              {flattenedCategories.length === 0 ? (
                 <SelectItem value="" disabled>No categories available</SelectItem>
               ) : (
-                filteredCategories.map((category) => (
+                flattenedCategories.map((category) => (
                   <SelectItem key={category.id} value={category.id}>
-                    {category.name}
+                    {"parentCategoryId" in category && category.parentCategoryId 
+                      ? `— ${category.name}` 
+                      : category.name}
                   </SelectItem>
                 ))
               )}
