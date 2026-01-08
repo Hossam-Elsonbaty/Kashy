@@ -61,12 +61,12 @@ const Book = ({ item }: { item: Item }) => {
       <section
         className="book-cell mt-2 px-4 py-2"
         key={item.id}
+        onClick={() => navigate(`/book/${item.id}?name=${item.name}`)}
       >
         <div className="i-holder flex-center">
           <IoMdWallet />
         </div>
         <div className="book-info"
-        onClick={() => navigate(`/book/${item.id}?name=${item.name}`)}
         >
           <p className="capitalize">{item.name}</p>
           <p>{item.updatedAt}</p>
