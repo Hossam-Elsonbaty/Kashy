@@ -127,7 +127,7 @@ const Login = () => {
         </button>
         <div className="flex gap-2 justify-center">
           <p className="text-gray-400">Don't have an account ?</p>
-          <Link to="/login" className="text-[#f0b100] font-bold ">SIGN UP</Link>
+          <Link to="/sign-up" className="text-[#f0b100] font-bold ">SIGN UP</Link>
         </div>
       </form>
       {isErrorSubmit && (
