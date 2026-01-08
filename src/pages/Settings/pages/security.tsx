@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 
 // Types
@@ -68,6 +67,8 @@ export default function SecurityScreen() {
   };
 
   const onSubmit = async (data: FormData) => {
+    console.log(data);
+    
     if (!userData?._id) {
       alert(
         lang === "ar" ? "لم يتم العثور على معلومات المستخدم" : "User data not found"

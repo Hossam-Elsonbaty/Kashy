@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useState } from "react";
+import  { useState } from "react";
 import { AlertCircle, AlertTriangle } from "lucide-react";
 
 // Types
@@ -20,6 +19,7 @@ export default function DeleteAccountScreen() {
   const [isDeleting, setIsDeleting] = useState(false);
 
   const handleDeleteAccount = async () => {
+    setIsDeleting(true)
     // try {
     //   const userDataString = localStorage.getItem("userData");
     //   if (!userDataString) {
