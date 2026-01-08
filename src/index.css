@@ -150,11 +150,6 @@
   color: rgb(0, 139, 81);
 }
 
-input,select {
-  outline: none;
-  /* border: none; */
-  background-color: transparent;
-}
 .flex-center{
   display: flex;
   justify-content: center;

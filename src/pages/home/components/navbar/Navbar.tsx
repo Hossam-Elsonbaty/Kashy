@@ -1,7 +1,6 @@
 import { MdPersonAddAlt } from "react-icons/md";
 import { IoIosArrowDown } from "react-icons/io";
 import "./_navbar.scss";
-import logo from "../../../../assets/sonbaty cashbook2.png";
 interface UserDataModel {
   accessToken: string;
   email: string;
@@ -18,7 +17,7 @@ const Navbar = () => {
   console.log(userData);
   return (
     <nav className="home-nav bg-white">
-      <img src={userData?.pictureUrl? userData.pictureUrl : logo} alt="userImg" />
+      {/* <img src={userData?.pictureUrl? userData.pictureUrl : logo} alt="userImg" /> */}
       <div className="user-info">
         <p className="text-stone-900">{userData?.fullName}</p>
         <p>Tap to switch accounts</p>

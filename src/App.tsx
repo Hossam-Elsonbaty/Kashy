@@ -8,6 +8,10 @@ import PageNotFound from './components/PageNotFound';
 import EntryDetails from './pages/entryDetails/EntryDetails';
 import EditEntry from './pages/editEntry/editEntry';
 import Settings from './pages/Settings/settings';
+import ProfileScreen from './pages/Settings/pages/profile';
+import PhotoScreen from './pages/Settings/pages/photoScreen';
+import SecurityScreen from './pages/Settings/pages/security';
+import DeleteAccountScreen from './pages/Settings/pages/deleteAccount';
 
 function App() {
   return (
@@ -15,7 +19,11 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path="/sign-up" element={<Signup />} />
-      <Route path="/settings" element={<Settings />} />
+      <Route path="/settings" element={<Settings />}/>
+      <Route path="/settings/profile" element={<ProfileScreen />} />
+      <Route path="/settings/profile-pic" element={<PhotoScreen />} />
+      <Route path="/settings/security" element={<SecurityScreen />} />
+      <Route path="/settings/delete-account" element={<DeleteAccountScreen />} />
       {/* <Route path="/book" element={<Book />} /> */} 
       <Route path="/book/:id" element={<Book />} />
       <Route path="/book/:id/add-cash-entry" element={<AddEntry />} />

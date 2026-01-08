@@ -79,52 +79,57 @@ const Login = () => {
     }
   };
   return (
-    <main className="login-page flex-center">
-      <img src={logo} alt="Sonbaty Cashbook Logo" />
-      <h1>Welcome Back!</h1>
-      <form className="flex-center" onSubmit={handleSubmit} noValidate>
-        <div className="input-group">
+    <main className="flex flex-col bg-gray-900 h-screen">
+      <div className="flex items-center flex-col gap-4 h-90 justify-center">
+        <img src={logo} alt="Sonbaty Cashbook Logo" className="w-42"/>
+        <h1 className="text-gray-400">Please sign up to your existing Account</h1>
+      </div>
+      <form className="bg-white w-full rounded-t-2xl flex flex-col gap-9 p-4 h-full pt-8" onSubmit={handleSubmit} noValidate>
+        <div className="flex gap-2 flex-col">
+          <label className="text-gray-500 text-sm"> EMAIL </label>
           <input
             type="email"
             name="email"
-            placeholder="Please Enter Your Email"
+            placeholder="example@gmail.com"
             value={formData.email}
             onChange={handleChange}
-            className={errors.email ? "error" : ""}
+            className={errors.email ? "error p-4 w-full rounded-xl bg-gray-200" : "p-4 w-full rounded-xl bg-gray-200"}
             required
           />
           {errors.email && <span className="error-message">{errors.email}</span>}
         </div>
-        <div className="input-group flex items-center">
+        <div className="flex gap-2 flex-col relative">
+          <label className="text-gray-500 text-sm"> PASSWORD </label>
           <input
             type={showPassword?"text" : "password"}
             name="password"
-            placeholder="Your Password"
+            placeholder="*************"
             value={formData.password}
             onChange={handleChange}
-            className={errors.password ? "error" : ""}
+            className={errors.password ? "error p-4 w-full rounded-xl bg-gray-200" : "p-4 w-full rounded-xl bg-gray-200"}
             required
           />
-          <button type="button" className="absolute right-5 " onClick={()=>setShowPassword(!showPassword)}>
+          <button className="absolute right-5 top-11" onClick={()=>setShowPassword(!showPassword)}>
             {showPassword?
-            <FaRegEye className="icon"/>
+            <FaRegEye className="text-lg text-gray-400"/>
             :
-            <FaRegEyeSlash className="icon"/>
+            <FaRegEyeSlash className="text-lg text-gray-400"/>
             }
           </button>
           {errors.password && <span className="error-message">{errors.password}</span>}
         </div>
         <button 
-          className="btn" 
+          className="w-full bg-[#f0b100] rounded-2xl p-4 text-white "
           type="submit" 
           disabled={isLoading}
         >
           {isLoading ? "Logging in..." : "Login"}
         </button>
+        <div className="flex gap-2 justify-center">
+          <p className="text-gray-400">Don't have an account ?</p>
+          <Link to="/login" className="text-[#f0b100] font-bold ">SIGN UP</Link>
+        </div>
       </form>
-      <span>
-        Don't have an account? <Link to="/sign-up">Sign Up</Link>
-      </span>
       {isErrorSubmit && (
         <span className="text-danger">
           Invalid credentials. Please try again.
