@@ -12,6 +12,7 @@ import ProfileScreen from './pages/Settings/pages/profile';
 import PhotoScreen from './pages/Settings/pages/photoScreen';
 import SecurityScreen from './pages/Settings/pages/security';
 import DeleteAccountScreen from './pages/Settings/pages/deleteAccount';
+import Categories from './pages/Categories/categories';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path="/sign-up" element={<Signup />} />
+      <Route path="/categories" element={<Categories />}/>
       <Route path="/settings" element={<Settings />}/>
       <Route path="/settings/profile" element={<ProfileScreen />} />
       <Route path="/settings/profile-pic" element={<PhotoScreen />} />
