@@ -5,25 +5,25 @@ nav.book-navbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px;
+  padding: 14px;
   border-bottom: 1px solid var(--border-color);
   .right{
     display: flex;
     align-items: center;
     gap: 20px;
   }
-  .left{
-    p{
-      &:first-child{
-        text-transform: capitalize;
-        font-size: 14px;
-        font-weight: 700;
-      }
-      &:last-child{
-        font-size: 12px;
-        font-weight: 600;
-        color: var(--text-color);
-      }
-    }
-  }
+  // .left{
+  //   p{
+  //     &:first-child{
+  //       text-transform: capitalize;
+  //       font-size: 14px;
+  //       font-weight: 700;
+  //     }
+  //     &:last-child{
+  //       font-size: 12px;
+  //       font-weight: 600;
+  //       color: var(--text-color);
+  //     }
+  //   }
+  // }
 }

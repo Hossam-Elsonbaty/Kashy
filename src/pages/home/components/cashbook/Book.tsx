@@ -1,14 +1,14 @@
-import { TbDotsVertical } from "react-icons/tb";
+// import { TbDotsVertical } from "react-icons/tb";
 import "./_book.scss";
 import { useNavigate } from "react-router-dom";
-import ConfirmDelete from "../../../../components/ConfirmDelete";
-import instance from "../../../../instance";
-import toast, { Toaster } from "react-hot-toast";
-import { useState } from "react";
+// import ConfirmDelete from "../../../../components/ConfirmDelete";
+// import instance from "../../../../instance";
+// import toast, { Toaster } from "react-hot-toast";
+// import { useState } from "react";
 import { IoMdWallet } from "react-icons/io";
-import { useDispatch } from "react-redux";
-import type { AppDispatch } from "../../../../store/Store";
-import { cashbooksAction } from "../../../../store/slices/cashbooksSlice";
+// import { useDispatch } from "react-redux";
+// import type { AppDispatch } from "../../../../store/Store";
+// import { cashbooksAction } from "../../../../store/slices/cashbooksSlice";
 interface Item {
   balance: number;
   createdAt: string;
@@ -30,36 +30,36 @@ export interface CashBook {
   totalPages: number;
 }
 const Book = ({ item }: { item: Item }) => {
-  const dispatch = useDispatch<AppDispatch>();
-  const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false)
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
-  const handleDeleteEntry = () => {
-    console.log(item.id);
-    instance
-      .delete(`/api/Cashbook?cashbookId=${item.id}&deleteRelated=true`)
-      .then((response) => {
-        console.log(response.data);
-        toast.success("Successfully deleted");
-        setIsDropdownOpen(false);
-        setIsModalOpen(false);
-        dispatch(cashbooksAction())
-      })
-      .catch((error) => {
-        console.log(error);
-        toast.error("Operation failed");
-      });
-  };
+  // const dispatch = useDispatch<AppDispatch>();
+  // const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false)
+  // const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+  // const handleDeleteEntry = () => {
+  //   console.log(item.id);
+  //   instance
+  //     .delete(`/api/Cashbook?cashbookId=${item.id}&deleteRelated=true`)
+  //     .then((response) => {
+  //       console.log(response.data);
+  //       toast.success("Successfully deleted");
+  //       setIsDropdownOpen(false);
+  //       setIsModalOpen(false);
+  //       dispatch(cashbooksAction())
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //       toast.error("Operation failed");
+  //     });
+  // };
   const navigate = useNavigate();
   return (
     <>
-      <Toaster position="top-center"/>
-      <ConfirmDelete
+      {/* <Toaster position="top-center"/> */}
+      {/* <ConfirmDelete
         isOpen={isModalOpen}
         handleOpen={() => setIsModalOpen(false)}
         handleDelete={handleDeleteEntry}
-      />
+      /> */}
       <section
-        className="book-cell mt-2"
+        className="book-cell mt-2 px-4 py-2"
         key={item.id}
       >
         <div className="i-holder flex-center">
@@ -71,9 +71,9 @@ const Book = ({ item }: { item: Item }) => {
           <p className="capitalize">{item.name}</p>
           <p>{item.updatedAt}</p>
         </div>
-        <div className="book-price relative">
+        <div className="book-price ">
           {/* Options dropdown*/}
-          <div
+          {/* <div
             id="dropdownDots"
             className={`${
               isDropdownOpen ? "block" : "hidden"
@@ -92,11 +92,11 @@ const Book = ({ item }: { item: Item }) => {
                 </button>
               </li>
             </ul>
-          </div>
+          </div> */}
           <p className={`${item.balance >= 0? 'text-green-600' : 'text-red-600'}`}>{item.balance}</p>
-          <button onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
+          {/* <button onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
             <TbDotsVertical className="w-5 h-5 text-gray-800" />
-          </button>
+          </button> */}
         </div>
       </section>
     </>

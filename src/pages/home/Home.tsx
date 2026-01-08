@@ -19,7 +19,7 @@ const Home = () => {
   },[dispatch])
   console.log(dataTest);
   return (
-    <main className='home'>
+    <main className='h-screen flex flex-col justify-between'>
       {isLoading?
       <Loader/>
       :

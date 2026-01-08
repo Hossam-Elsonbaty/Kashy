@@ -1,4 +1,5 @@
-import { useState, type ChangeEvent, type FormEvent } from "react";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
 import { Button } from "./ui/button";
 import {
   Dialog,
@@ -14,6 +15,7 @@ import instance from "../instance";
 import { useDispatch } from "react-redux";
 import { cashbooksAction } from "../store/slices/cashbooksSlice";
 import type { AppDispatch } from "../store/Store";
+import { getCashbookById } from "../store/slices/singleCashbookSlice";
 
 interface User {
   accessToken: string;
@@ -28,16 +30,21 @@ interface User {
 function DialogDemo({
   open ,
   onOpenChange,
+  isUpdate,
+  book_name,
+  id
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  isUpdate:boolean;
+  book_name:string;
+  id:string
 }) {
   const dispatch = useDispatch<AppDispatch>()
   const userString = localStorage.getItem("user");
   const user: User | null = userString ? JSON.parse(userString) : null;
   const userId = user ? user.id : null;
   // const userId = JSON.parse(localStorage.getItem('user')).id;
-  console.log(userId);
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -65,10 +72,34 @@ function DialogDemo({
       console.error("Error:", err);
     }
   };
+  const handleUpdate = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
+    e.preventDefault();
+    console.log("Submitting data:", formData);
+    try {
+      const res = await instance.put(`/api/Cashbook/${id}`, {
+        id,
+        name: formData.name,
+        description: formData.description,
+      });
+      onOpenChange(false);
+      dispatch(cashbooksAction())
+      dispatch(getCashbookById(id))
+    } catch (err) {
+      console.error("Error:", err);
+    }
+  };
+  useEffect(()=>{
+    if (book_name) {
+      setFormData((prev) => ({
+        ...prev,
+        name: book_name,
+      }));
+    }
+  },[book_name, id])
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={isUpdate?handleUpdate:handleSubmit}>
           <DialogHeader>
             <DialogTitle>Add New Book</DialogTitle>
           </DialogHeader>
@@ -82,6 +113,7 @@ function DialogDemo({
                 onChange={handleChange}
               />
             </div>
+            {!isUpdate&&
             <div className="grid gap-3">
               <Label htmlFor="description">Description</Label>
               <Input
@@ -91,6 +123,7 @@ function DialogDemo({
                 onChange={handleChange}
               />
             </div>
+            }
           </div>
           <DialogFooter>
             <DialogClose asChild>
@@ -98,7 +131,7 @@ function DialogDemo({
                 Cancel
               </Button>
             </DialogClose>
-            <Button type="submit">Add</Button>
+            <Button type="submit">{isUpdate?"Update":"Add"}</Button>
           </DialogFooter>
         </form>
       </DialogContent>

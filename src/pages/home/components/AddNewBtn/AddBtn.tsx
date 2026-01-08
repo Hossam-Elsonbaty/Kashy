@@ -27,7 +27,7 @@ export const AddBtn = () => {
         <IoMdAdd className='text-primary-foreground'/>
         <p className='text-primary-foreground'>Add New Book</p>
       </div>
-      <DialogDemo open={open} onOpenChange={setOpen} />
+      <DialogDemo open={open} onOpenChange={setOpen} isUpdate={false} book_name="" id=""/>
     </>
   );
 };
