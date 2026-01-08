@@ -24,7 +24,7 @@ const Home = () => {
       <Loader/>
       :
       <>
-        <div className="flex flex-col h-dvh">
+        <div className="flex flex-col ">
           <Navbar/>
           <Filter/>
           <AddBtn/>
