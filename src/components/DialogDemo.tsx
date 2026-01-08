@@ -76,7 +76,7 @@ function DialogDemo({
     e.preventDefault();
     console.log("Submitting data:", formData);
     try {
-      const res = await instance.put(`/api/Cashbook/${id}`, {
+      await instance.put(`/api/Cashbook/${id}`, {
         id,
         name: formData.name,
         description: formData.description,
