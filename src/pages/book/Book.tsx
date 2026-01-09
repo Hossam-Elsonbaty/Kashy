@@ -78,7 +78,7 @@ const Book = () => {
   const handleDeleteEntry = () => {
     console.log(id);
     instance
-      .delete(`/api/Cashbook?cashbookId=${id}&deleteRelated=true`)
+      .delete(`/api/Cashbook/${id}?deleteRelated=true`)
       .then((response) => {
         console.log(response.data);
         toast.success("Successfully deleted");
