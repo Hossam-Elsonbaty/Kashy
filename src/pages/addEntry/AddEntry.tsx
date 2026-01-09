@@ -1,4 +1,5 @@
-import { useState } from "react"
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useEffect, useState } from "react"
 import { Button } from "../../components/ui/button"
 import { Input } from "../../components/ui/input"
 import { Label } from "../../components/ui/label"
@@ -7,7 +8,23 @@ import { format } from "date-fns"
 import { useLocation, useNavigate, useParams } from "react-router-dom"
 import instance from "../../instance"
 import toast, { Toaster } from 'react-hot-toast';
+import { useDispatch, useSelector } from "react-redux"
+import type { AppDispatch } from "../../store/Store"
+import { categoriesAction } from "../../store/slices/categoriesSlice"
+import Loader from "../../components/Loader"
+import PageNotFound from "../../components/PageNotFound"
+export interface Category {
+  id: string;
+  name: string;
+  description: null;
+  parentCategoryId: null;
+  level: number;
+  type: number;
+  subCategories: [];
+}
 const AddEntry = () => {
+  const { currentCategories, status } = useSelector((state: any) => state.categories);
+  const dispatch = useDispatch<AppDispatch>()
   const location = useLocation();
   const navigate = useNavigate();
   const {id} = useParams()
@@ -25,11 +42,15 @@ const AddEntry = () => {
   const handleChange = (field: string, value: string | number) => {
     setFormData(prev => ({ ...prev, [field]: value }))
   }
+  useEffect(()=>{
+    dispatch(categoriesAction())
+  },[dispatch])
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     console.log("Submitted Data:", formData)
     instance.post('/api/entry',{
       cashbookId: formData.cashbookId,
+      categoryId: formData.categoryId,
       amount: formData.amount,
       creationDate: formData.creationDate,
       creationTime: formData.creationTime,
@@ -46,7 +67,12 @@ const AddEntry = () => {
     .catch(err=>toast.error("Operation failed" + err))
   }
   console.log(location,type,id);
-  
+  if (status === "loading") {
+    return <Loader/>;
+  }
+  if (status === "failed") {
+    return <PageNotFound/>;
+  }
   return (
     <main className="max-w-md mx-auto space-y-5 flex flex-col gap-0 h-dvh">
       <Toaster position="top-center"/>
@@ -110,13 +136,14 @@ const AddEntry = () => {
         {/* Category */}
         <div>
           <Label className="mb-2">Category</Label>
-          <Select disabled onValueChange={(val) => handleChange("categoryId", val)} >
+          <Select onValueChange={(val) => handleChange("categoryId", val)} >
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Select category" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="0">Sales</SelectItem>
-              <SelectItem value="1">Refund</SelectItem>
+              {currentCategories&& currentCategories.map((cat:Category)=>
+                <SelectItem key={cat.id} value={cat.id}>{cat.name}</SelectItem>
+              )}
             </SelectContent>
           </Select>
         </div>

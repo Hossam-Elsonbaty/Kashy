@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react"
 import { Button } from "../../components/ui/button"
 import { Input } from "../../components/ui/input"
@@ -11,7 +12,22 @@ import { ArrowLeft } from "lucide-react";
 import { PiTrashSimpleBold } from "react-icons/pi";
 import ConfirmDelete from "../../components/ConfirmDelete"
 import Loader from "../../components/Loader"
+import { useDispatch, useSelector } from "react-redux"
+import type { AppDispatch } from "../../store/Store"
+import PageNotFound from "../../components/PageNotFound"
+import { categoriesAction } from "../../store/slices/categoriesSlice"
+export interface Category {
+  id: string;
+  name: string;
+  description: null;
+  parentCategoryId: null;
+  level: number;
+  type: number;
+  subCategories: [];
+}
 const EditEntry = () => {
+  const { currentCategories, status } = useSelector((state: any) => state.categories);
+  const dispatch = useDispatch<AppDispatch>()
   const { entryId } = useParams()
   const navigate = useNavigate()
   const [loading, setLoading] = useState<boolean>(true)
@@ -25,8 +41,12 @@ const EditEntry = () => {
     paymentMethodName: "cash",
     entryType: 1, 
     categoryName: "",
+    categoryId: "",
   })
   // Fetch entry data on mount
+  useEffect(()=>{
+    dispatch(categoriesAction())
+  },[dispatch])
   useEffect(() => {
     console.log(entryId);
     instance
@@ -37,6 +57,7 @@ const EditEntry = () => {
         const parsedDate = new Date(data.createdAt);
         setFormData({
           cashbookId: data.id,
+          categoryId: data.categoryId,
           amount: data.amount,
           creationDate: format(parsedDate, "yyyy-MM-dd"),
           creationTime: format(parsedDate, "HH:mm:ss"),
@@ -76,6 +97,7 @@ const EditEntry = () => {
     instance
       .put(`/api/Entry/${entryId}`, {
         id: formData.cashbookId,
+        categoryId: formData.categoryId,
         amount: formData.amount,
         creationDate: formData.creationDate,
         creationTime: formData.creationTime,
@@ -95,12 +117,15 @@ const EditEntry = () => {
         console.log(err);
       })
   }
-  if (loading)
+  if (loading || status === "loading")
     return (
       <main className="flex items-center justify-center h-dvh">
         <Loader/>
       </main>
     )
+  if (status === "failed") {
+    return <PageNotFound/>;
+  }
   return (
     <main className="max-w-md mx-auto flex flex-col gap-3 h-dvh">
       <Toaster position="top-center" />
@@ -196,16 +221,16 @@ const EditEntry = () => {
         <div>
           <Label className="mb-2">Category</Label>
           <Select
-            disabled
-            onValueChange={(val) => handleChange("entryType", Number(val))}
-            value={formData?.categoryName}
+            onValueChange={(val) => handleChange("categoryId", val)}
+            value={formData?.categoryId}
           >
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Select category" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="0">Sales</SelectItem>
-              <SelectItem value="1">Refund</SelectItem>
+              {currentCategories&& currentCategories.map((cat:Category)=>
+                <SelectItem key={cat.id} value={cat.id}>{cat.name}</SelectItem>
+              )}
             </SelectContent>
           </Select>
         </div>
