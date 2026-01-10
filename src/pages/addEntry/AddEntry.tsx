@@ -50,7 +50,7 @@ const AddEntry = () => {
     console.log("Submitted Data:", formData)
     instance.post('/api/entry',{
       cashbookId: formData.cashbookId,
-      categoryId: formData.categoryId,
+      categoryId: formData.categoryId || null,
       amount: formData.amount,
       creationDate: formData.creationDate,
       creationTime: formData.creationTime,

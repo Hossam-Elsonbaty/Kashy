@@ -97,7 +97,7 @@ const EditEntry = () => {
     instance
       .put(`/api/Entry/${entryId}`, {
         id: formData.cashbookId,
-        categoryId: formData.categoryId,
+        categoryId: formData.categoryId || null,
         amount: formData.amount,
         creationDate: formData.creationDate,
         creationTime: formData.creationTime,
