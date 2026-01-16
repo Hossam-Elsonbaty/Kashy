@@ -9,58 +9,58 @@ export default function DeleteAccountScreen() {
 
   const handleDeleteAccount = async () => {
     setIsDeleting(true)
-    // try {
-    //   const userDataString = localStorage.getItem("userData");
-    //   if (!userDataString) {
-    //     alert(
-    //       lang === "ar" ? "لم يتم العثور على بيانات المستخدم" : "User data not found"
-    //     );
-    //     return;
-    //   }
+    try {
+      const userDataString = localStorage.getItem("userData");
+      if (!userDataString) {
+        alert(
+          lang === "ar" ? "لم يتم العثور على بيانات المستخدم" : "User data not found"
+        );
+        return;
+      }
 
-    //   const userData = JSON.parse(userDataString);
-    //   setIsDeleting(true);
+      const userData = JSON.parse(userDataString);
+      setIsDeleting(true);
 
-    //   const token = localStorage.getItem("token");
-    //   const response = await fetch(
-    //     `https://darreb-academy-backend.vercel.app/api/users/${userData._id}`,
-    //     {
-    //       method: "DELETE",
-    //       headers: {
-    //         Authorization: `Bearer ${token}`,
-    //       },
-    //     }
-    //   );
+      const token = localStorage.getItem("token");
+      const response = await fetch(
+        `https://darreb-academy-backend.vercel.app/api/users/${userData._id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-    //   if (!response.ok) {
-    //     const errorData = await response.json();
-    //     throw new Error(errorData.message || "Failed to delete account");
-    //   }
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to delete account");
+      }
 
-    //   // Clear all stored data
-    //   localStorage.removeItem("token");
-    //   localStorage.removeItem("userData");
+      // Clear all stored data
+      localStorage.removeItem("token");
+      localStorage.removeItem("userData");
 
-    //   setIsModalOpen(false);
+      setIsModalOpen(false);
 
-    //   // Show success message
-    //   alert(
-    //     lang === "ar"
-    //       ? "تم حذف حسابك بنجاح"
-    //       : "Your account has been deleted successfully"
-    //   );
+      // Show success message
+      alert(
+        lang === "ar"
+          ? "تم حذف حسابك بنجاح"
+          : "Your account has been deleted successfully"
+      );
 
-    //   // Redirect to home page
-    //   window.location.assign = "/login";
-    // } catch (error: any) {
-    //   console.error("Delete account error:", error);
-    //   alert(
-    //     error.message ||
-    //       (lang === "ar" ? "فشل حذف الحساب" : "Failed to delete account")
-    //   );
-    // } finally {
-    //   setIsDeleting(false);
-    // }
+      // Redirect to home page
+      window.location.assign = "/login";
+    } catch (error: any) {
+      console.error("Delete account error:", error);
+      alert(
+        error.message ||
+          (lang === "ar" ? "فشل حذف الحساب" : "Failed to delete account")
+      );
+    } finally {
+      setIsDeleting(false);
+    }
   };
 
   const showDeleteConfirmation = () => {
