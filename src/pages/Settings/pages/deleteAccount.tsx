@@ -1,20 +1,9 @@
 import  { useState } from "react";
-import { AlertCircle, AlertTriangle } from "lucide-react";
-
-// Types
-interface LanguageContextType {
-  language: string;
-}
-
-// Mock Language Context Hook (replace with your actual context)
-const useLanguage = (): LanguageContextType => {
-  const [language] = useState("en");
-  return { language };
-};
+import { AlertCircle, AlertTriangle, ArrowLeft } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 
 export default function DeleteAccountScreen() {
-  const { language } = useLanguage();
-  const lang = language === "ar" ? "ar" : "en";
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
 
@@ -62,7 +51,7 @@ export default function DeleteAccountScreen() {
     //   );
 
     //   // Redirect to home page
-    //   window.location.href = "/";
+    //   window.location.assign = "/login";
     // } catch (error: any) {
     //   console.error("Delete account error:", error);
     //   alert(
@@ -77,13 +66,20 @@ export default function DeleteAccountScreen() {
   const showDeleteConfirmation = () => {
     setIsModalOpen(true);
   };
-
+  const navigate = useNavigate();
   return (
     <>
       <div className="flex-1 bg-gray-50 min-h-screen overflow-y-auto">
-        <div className="bg-white rounded-lg m-4 p-6 max-w-2xl mx-auto">
+        <Toaster />
+        <div className="flex items-center gap-2 p-4 border-b">
+          <button onClick={() => navigate(-1)}>
+            <ArrowLeft className="w-5 h-5 text-gray-700 cursor-pointer" />
+          </button>
+          <h2 className="font-medium text-gray-800">Delete Account</h2>
+        </div>
+        <div className="bg-white rounded-lg p-3 max-w-2xl mx-auto">
           <h1 className="text-xl font-semibold text-red-600 mb-4">
-            {lang === "ar" ? "حذف الحساب" : "Delete Account"}
+            Delete Account
           </h1>
 
           {/* Warning Box */}
@@ -91,21 +87,17 @@ export default function DeleteAccountScreen() {
             <div className="flex items-center gap-2 mb-2">
               <AlertTriangle className="w-5 h-5 text-red-600" />
               <span className="text-red-700 font-semibold">
-                {lang === "ar" ? "تحذير!" : "Warning!"}
+                Warning!
               </span>
             </div>
             <p className="text-red-700 text-sm">
-              {lang === "ar"
-                ? "هذه العملية دائمة ولا يمكن التراجع عنها."
-                : "This action is permanent and cannot be undone."}
+              This action is permanent and cannot be undone.
             </p>
           </div>
 
           {/* Description */}
           <p className="text-sm text-gray-600 mb-6 leading-6">
-            {lang === "ar"
-              ? "بمجرد حذف حسابك، سيتم إزالة جميع بياناتك بشكل دائم بما في ذلك الدورات المشتراة والتقدم في التعلم."
-              : "Once you delete your account, all your data will be permanently removed including purchased courses and learning progress."}
+            Once you delete your account, all your data will be permanently removed including purchased courses and learning progress.
           </p>
 
           {/* Delete Button */}
@@ -114,7 +106,7 @@ export default function DeleteAccountScreen() {
             className="w-full bg-red-600 hover:bg-red-700 py-4 rounded-lg transition-colors"
           >
             <span className="text-white text-center font-semibold text-base">
-              {lang === "ar" ? "حذف حسابي" : "Delete My Account"}
+              Delete My Account
             </span>
           </button>
         </div>
@@ -133,14 +125,12 @@ export default function DeleteAccountScreen() {
 
             {/* Title */}
             <h2 className="text-xl font-bold text-center mb-2 text-gray-900">
-              {lang === "ar" ? "هل أنت متأكد؟" : "Are you sure?"}
+              Are you sure?
             </h2>
 
             {/* Message */}
             <p className="text-sm text-center text-gray-600 mb-6 leading-6">
-              {lang === "ar"
-                ? "بمجرد تأكيدك، سيتم حذف حسابك بشكل دائم ولن تتمكن من استعادته. جميع دوراتك وبياناتك ستُفقد نهائياً."
-                : "Once you confirm, your account will be permanently deleted and you won't be able to recover it. All your courses and data will be lost forever."}
+              Once you confirm, your account will be permanently deleted and you won't be able to recover it. All your courses and data will be lost forever.
             </p>
 
             {/* Buttons */}
@@ -151,7 +141,7 @@ export default function DeleteAccountScreen() {
                 className="flex-1 bg-gray-200 hover:bg-gray-300 py-3 rounded-lg transition-colors disabled:opacity-50"
               >
                 <span className="text-gray-700 text-center font-semibold">
-                  {lang === "ar" ? "إلغاء" : "Cancel"}
+                  Cancel
                 </span>
               </button>
 
@@ -170,7 +160,7 @@ export default function DeleteAccountScreen() {
                   </div>
                 ) : (
                   <span className="text-white text-center font-semibold">
-                    {lang === "ar" ? "تأكيد" : "Confirm"}
+                    Confirm
                   </span>
                 )}
               </button>

@@ -1,6 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { ArrowLeft } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
+import { Toaster } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 // Types
 interface UserData {
@@ -45,7 +48,7 @@ export default function SecurityScreen() {
       newPassword: "",
       confirmPassword: "",
     },
-  });
+  }); 
 
   const newPassword = watch("newPassword");
 
@@ -125,10 +128,17 @@ export default function SecurityScreen() {
     //   setIsSubmitting(false);
     // }
   };
-
+  const navigate = useNavigate();
   return (
     <div className="flex-1 bg-gray-50 min-h-screen overflow-y-auto">
-      <div className="bg-white rounded-lg m-4 p-6 max-w-2xl mx-auto">
+      <Toaster />
+      <div className="flex items-center gap-2 p-4 border-b">
+        <button onClick={() => navigate(-1)}>
+          <ArrowLeft className="w-5 h-5 text-gray-700 cursor-pointer" />
+        </button>
+        <h2 className="font-medium text-gray-800">Account settings</h2>
+      </div>
+      <div className="bg-white rounded-lg p-3 max-w-2xl mx-auto">
         <h1 className="text-2xl font-semibold mb-1 text-center text-gray-800">
           {lang === "ar" ? "الحساب" : "Account"}
         </h1>
