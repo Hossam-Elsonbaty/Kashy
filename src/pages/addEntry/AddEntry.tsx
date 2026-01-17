@@ -13,6 +13,7 @@ import type { AppDispatch } from "../../store/Store"
 import { categoriesAction } from "../../store/slices/categoriesSlice"
 import Loader from "../../components/Loader"
 import PageNotFound from "../../components/PageNotFound"
+import { PaymentMethodsAction } from "../../store/slices/paymentMethodSlice"
 export interface Category {
   id: string;
   name: string;
@@ -22,8 +23,13 @@ export interface Category {
   type: number;
   subCategories: [];
 }
+export interface PaymentMethod {
+  id: string;
+  name: string;
+}
 const AddEntry = () => {
   const { currentCategories, status } = useSelector((state: any) => state.categories);
+  const { currentPaymentMethods } = useSelector((state: any) => state.PaymentMethods);
   const dispatch = useDispatch<AppDispatch>()
   const location = useLocation();
   const navigate = useNavigate();
@@ -36,7 +42,7 @@ const AddEntry = () => {
     creationDate: format(new Date(), "yyyy-MM-dd"),
     creationTime: format(new Date(), "HH:mm:ss"),
     name: "",
-    paymentMethodName:"cash",
+    paymentMethodId:"",
     categoryId:''
   })
   const handleChange = (field: string, value: string | number) => {
@@ -44,6 +50,7 @@ const AddEntry = () => {
   }
   useEffect(()=>{
     dispatch(categoriesAction())
+    dispatch(PaymentMethodsAction())
   },[dispatch])
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -51,6 +58,7 @@ const AddEntry = () => {
     instance.post('/api/entry',{
       cashbookId: formData.cashbookId,
       categoryId: formData.categoryId || null,
+      paymentMethodId: formData.paymentMethodId || null,
       amount: formData.amount,
       creationDate: formData.creationDate,
       creationTime: formData.creationTime,
@@ -149,6 +157,19 @@ const AddEntry = () => {
         </div>
         {/* Payment Mode */}
         <div>
+          <Label className="mb-2">Payment Method</Label>
+          <Select onValueChange={(val) => handleChange("paymentMethodId", val)} >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select Payment Method" />
+            </SelectTrigger>
+            <SelectContent>
+              {currentPaymentMethods&& currentPaymentMethods.map((method:PaymentMethod)=>
+                <SelectItem key={method.id} value={method.id}>{method.name}</SelectItem>
+              )}
+            </SelectContent>
+          </Select>
+        </div>
+        {/* <div>
           <Label>Payment Method</Label>
           <div className="flex gap-2 mt-1">
             <Button
@@ -167,7 +188,7 @@ const AddEntry = () => {
               Online
             </Button>
           </div>
-        </div>
+        </div> */}
         {/* Save Button */}
         <Button type="submit" className="w-full mt-auto">
           Save

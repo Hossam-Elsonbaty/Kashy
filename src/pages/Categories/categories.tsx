@@ -11,6 +11,7 @@ import PageNotFound from "../../components/PageNotFound";
 import { Layers2, Pencil, Trash2 } from "lucide-react";
 import toast, { Toaster } from 'react-hot-toast';
 import ConfirmDelete from "../../components/ConfirmDelete";
+import Footer from "../home/components/footer/Footer";
 
 export interface Category {
   id: string;
@@ -107,37 +108,40 @@ const Categories = () => {
     setCatToDelete(id)
   }
   return (
-    <main>
+    <main className="h-screen flex flex-col justify-between">
       <Toaster position="top-center"/>
-      <Navbar />
       <ConfirmDelete
         isOpen={isModalOpen}
         handleOpen={() => setIsModalOpen(false)}
         handleDelete={handleDeleteCat}
       />
-      <div className="flex flex-col gap-3 p-4">
-        <button className="p-4 border border-gray-300 text-gray-700"onClick={()=>setIsDropUp(true)}>Add New Category</button>
-        {currentCategories.length>0?
-        currentCategories?.map((item:Category)=>
-        <div key={item.id} className="bg-gray-200 p-2 flex items-center rounded-2xl gap-5">
-          <span className="bg-gray-800 p-2 rounded-[50%] w-10 h-10 items-center flex justify-center">
-            <Layers2 className="w-5 text-amber-400 "/>
-          </span>
-          <p className="capitalize">{item.name}</p>
-          <div className="ml-auto mr-2 flex gap-3 items-center">
-            <button  onClick={()=>handleUpdate(item)}>
-              <Pencil className="w-4 text-gray-700 "/>
-            </button>
-            <button onClick={()=>handleDelete(item.id)}>
-              <Trash2 className="w-4 text-red-700 "/>
-            </button>
+      <div>
+        <Navbar />
+        <div className="flex flex-col gap-3 p-4">
+          <button className="p-4 border border-gray-300 text-gray-700"onClick={()=>setIsDropUp(true)}>Add New Category</button>
+          {currentCategories.length>0?
+          currentCategories?.map((item:Category)=>
+          <div key={item.id} className="bg-gray-200 p-2 flex items-center rounded-2xl gap-5">
+            <span className="bg-gray-800 p-2 rounded-[50%] w-10 h-10 items-center flex justify-center">
+              <Layers2 className="w-5 text-amber-400 "/>
+            </span>
+            <p className="capitalize">{item.name}</p>
+            <div className="ml-auto mr-2 flex gap-3 items-center">
+              <button  onClick={()=>handleUpdate(item)}>
+                <Pencil className="w-4 text-gray-700 "/>
+              </button>
+              <button onClick={()=>handleDelete(item.id)}>
+                <Trash2 className="w-4 text-red-700 "/>
+              </button>
+            </div>
           </div>
+          )
+          :
+          <EmptyState description="There are no categories to show."actionLabel="Add New Category" onAction={()=>setIsDropUp(true)}/>
+          }
         </div>
-        )
-        :
-        <EmptyState description="There are no categories to show."actionLabel="Add New Category" onAction={()=>setIsDropUp(true)}/>
-        }
       </div>
+      <Footer/>
       {
         isDropUp?
         <div className="w-screen bg-black/60 h-screen fixed top-0" onClick={()=>{setIsDropUp(false)}}>

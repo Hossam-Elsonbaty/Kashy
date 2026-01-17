@@ -19,11 +19,11 @@ const TransactionsGroup = ({entries}:{entries:GroupedEntries[]}) => {
               </p>
               {(entry.categoryName || entry.paymentMethodName) &&
                 <div className='flex gap-2 items-center p-2'>
-                  {entry.categoryName && 
-                  <p className='bg-[#f0b100] text-xs p-1 rounded-sm text-gray-900'>{entry.categoryName}</p>
-                  }
                   {entry.paymentMethodName && 
-                  <p className='bg-gray-400 text-xs p-1 rounded-sm text-gray-900'>{entry.categoryName}</p>
+                  <p className='bg-[#ffc830b7] text-xs p-1 rounded-sm text-gray-800'>{entry.paymentMethodName}</p>
+                  }
+                  {entry.categoryName && 
+                  <p className='bg-gray-300 text-xs p-1 rounded-sm text-gray-800'>{entry.categoryName}</p>
                   }
                 </div>              
               }

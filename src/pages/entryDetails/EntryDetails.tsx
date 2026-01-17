@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import instance from "../../instance";
 import { useNavigate, useParams } from "react-router-dom";
 import { FaWhatsapp } from "react-icons/fa";
-import { HiDotsVertical } from "react-icons/hi";
+// import { HiDotsVertical } from "react-icons/hi";
 import toast, { Toaster } from "react-hot-toast";
 import ConfirmDelete from "../../components/ConfirmDelete";
 import Loader from "../../components/Loader";
@@ -99,9 +99,9 @@ export default function EntryDetails() {
           </button>
           <h2 className="font-medium text-gray-800">Entry Details</h2>
         </div>
-        <button onClick={()=>setIsDropdownOpen(!isDropdownOpen)}>
+        {/* <button onClick={()=>setIsDropdownOpen(!isDropdownOpen)}>
           <HiDotsVertical className="w-5 h-5 text-gray-800" />
-        </button>
+        </button> */}
       </div>
       {/* Content */}
       <div className="p-4 flex-1">
@@ -126,9 +126,12 @@ export default function EntryDetails() {
             </p>
             {/* Payment Method */}
             <div className="flex flex-wrap gap-2">
-              <span className="bg-amber-400 text-amber-800 px-3 py-1 rounded-md text-sm font-medium">
-                {entryDetails?.paymentMethodName || "Cash"}
-              </span>
+              
+              {entryDetails?.paymentMethodName && (
+                <span className="bg-amber-400 text-gray-700 px-3 py-1 rounded-md text-sm font-medium">
+                  {entryDetails?.paymentMethodName}
+                </span>
+              )}
               {entryDetails?.categoryName && (
                 <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-md text-sm font-medium">
                   {entryDetails?.categoryName}

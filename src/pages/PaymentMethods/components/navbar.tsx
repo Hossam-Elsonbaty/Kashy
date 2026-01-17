@@ -9,7 +9,7 @@ const Navbar = () => {
         <button onClick={() => navigate(-1)}>
           <ArrowLeft className="w-5 h-5 text-gray-700 cursor-pointer" />
         </button>
-        <h2 className="font-medium text-gray-800">Categories</h2>
+        <h2 className="font-medium text-gray-800">Payment Methods</h2>
       </div>
     </div>
   );

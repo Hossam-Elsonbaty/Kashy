@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from "react-redux"
 import type { AppDispatch } from "../../store/Store"
 import PageNotFound from "../../components/PageNotFound"
 import { categoriesAction } from "../../store/slices/categoriesSlice"
+import { PaymentMethodsAction } from "../../store/slices/paymentMethodSlice"
 export interface Category {
   id: string;
   name: string;
@@ -25,8 +26,13 @@ export interface Category {
   type: number;
   subCategories: [];
 }
+export interface PaymentMethod {
+  id: string;
+  name: string;
+}
 const EditEntry = () => {
   const { currentCategories, status } = useSelector((state: any) => state.categories);
+  const { currentPaymentMethods } = useSelector((state: any) => state.PaymentMethods);
   const dispatch = useDispatch<AppDispatch>()
   const { entryId } = useParams()
   const navigate = useNavigate()
@@ -38,7 +44,7 @@ const EditEntry = () => {
     creationDate: "",
     creationTime: "",
     name: "",
-    paymentMethodName: "cash",
+    paymentMethodId: "",
     entryType: 1, 
     categoryName: "",
     categoryId: "",
@@ -46,6 +52,7 @@ const EditEntry = () => {
   // Fetch entry data on mount
   useEffect(()=>{
     dispatch(categoriesAction())
+    dispatch(PaymentMethodsAction())
   },[dispatch])
   useEffect(() => {
     console.log(entryId);
@@ -62,7 +69,7 @@ const EditEntry = () => {
           creationDate: format(parsedDate, "yyyy-MM-dd"),
           creationTime: format(parsedDate, "HH:mm:ss"),
           name: data.name,
-          paymentMethodName: data.paymentMethodName || "cash",
+          paymentMethodId: data.paymentMethodId || null,
           entryType: data.entryType,
           categoryName:data.categoryName
         })
@@ -103,8 +110,7 @@ const EditEntry = () => {
         creationTime: formData.creationTime,
         name: formData.name,
         entryType: formData.entryType,
-        // paymentMethodName: formData.paymentMethodName,
-        // categoryName:formData.categoryName
+        paymentMethodId: formData.paymentMethodId,
       })
       .then(() => {
         toast.success("Entry updated successfully")
@@ -236,6 +242,22 @@ const EditEntry = () => {
         </div>
         {/* Payment Method */}
         <div>
+          <Label className="mb-2">Payment Method</Label>
+          <Select
+            onValueChange={(val) => handleChange("paymentMethodId", val)}
+            value={formData?.paymentMethodId}
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select Payment Method" />
+            </SelectTrigger>
+            <SelectContent>
+              {currentPaymentMethods&& currentPaymentMethods.map((method:PaymentMethod)=>
+                <SelectItem key={method.id} value={method.id}>{method.name}</SelectItem>
+              )}
+            </SelectContent>
+          </Select>
+        </div>
+        {/* <div>
           <Label>Payment Method</Label>
           <div className="flex gap-2 mt-2">
             <Button
@@ -258,7 +280,7 @@ const EditEntry = () => {
               Online
             </Button>
           </div>
-        </div>
+        </div> */}
         {/* Save Button */}
         <Button type="submit" className="w-full mt-auto">
           Update Entry

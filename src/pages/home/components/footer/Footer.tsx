@@ -1,40 +1,35 @@
 import { MdBook } from "react-icons/md";
 import { IoSettings } from "react-icons/io5";
-import { useState } from "react";
 import './_footer.scss'
-import { Link } from "react-router-dom";
 import { Layers2 ,CreditCard} from "lucide-react";
+import { Link } from "react-router-dom";
 const Footer = () => {
-  const [activeTab, setActiveTab] = useState<'cashbooks' | 'settings' | 'categories'|'PaymentMethods'>('cashbooks');
+  const params = window.location.pathname;
   return (
     <footer className="home-footer bg-white">
-      <div 
-        onClick={() => setActiveTab('cashbooks')} 
-        className={`col flex-center ${activeTab === 'cashbooks' ? 'active' : ''}`}
+      <Link to="/" 
+        className={`col flex-center ${params === '/' ? 'active' : ''}`}
       >
-        <MdBook className={activeTab === 'cashbooks' ? 'active' : ''} />
-        <p className={activeTab === 'cashbooks' ? 'active' : ''}>Cashbooks</p>
-      </div>
+        <MdBook className={params === '/' ? 'active' : ''} />
+        <p className={params === '/' ? 'active' : ''}>Cashbooks</p>
+      </Link>
       <Link to="/categories"
-        onClick={() => setActiveTab('categories')} 
-        className={`col flex-center ${activeTab === 'categories' ? 'active' : ''}`}
+        className={`col flex-center ${params === '/categories' ? 'active' : ''}`}
       >
-        <Layers2 className={activeTab === 'categories' ? 'active w-5' : 'w-5'}/>
-        <p className={activeTab === 'categories' ? 'active' : ''}>Categories</p>
+        <Layers2 className={params === '/categories' ? 'active w-5' : 'w-5'}/>
+        <p className={params === '/categories' ? 'active' : ''}>Categories</p>
       </Link>
       <Link to="/payment-methods"
-        onClick={() => setActiveTab('PaymentMethods')} 
-        className={`col flex-center ${activeTab === 'PaymentMethods' ? 'active' : ''}`}
+        className={`col flex-center ${params === '/payment-methods' ? 'active' : ''}`}
       >
-        <CreditCard className={activeTab === 'PaymentMethods' ? 'active w-5' : 'w-5'}/>
-        <p className={activeTab === 'PaymentMethods' ? 'active' : ''}>PaymentMethods</p>
+        <CreditCard className={params === '/payment-methods' ? 'active w-5' : 'w-5'}/>
+        <p className={params === '/payment-methods' ? 'active' : ''}>PaymentMethods</p>
       </Link>
       <Link to="/settings"
-        onClick={() => setActiveTab('settings')} 
-        className={`col flex-center ${activeTab === 'settings' ? 'active' : ''}`}
+        className={`col flex-center ${params === '/settings' ? 'active' : ''}`}
       >
-        <IoSettings className={activeTab === 'settings' ? 'active' : ''} />
-        <p className={activeTab === 'settings' ? 'active' : ''}>Settings</p>
+        <IoSettings className={params === '/settings' ? 'active' : ''} />
+        <p className={params === '/settings' ? 'active' : ''}>Settings</p>
       </Link>
     </footer>
   )

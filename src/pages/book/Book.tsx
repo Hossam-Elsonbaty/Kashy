@@ -16,7 +16,6 @@ import { cashbooksAction } from "../../store/slices/cashbooksSlice";
 import { Pencil, Trash2 } from "lucide-react";
 import DialogDemo from "../../components/DialogDemo";
 import { getCashbookById } from "../../store/slices/singleCashbookSlice";
-import Loader from "../../components/Loader";
 import PageNotFound from "../../components/PageNotFound";
 interface Entries {
   amount: number;
@@ -60,9 +59,9 @@ const Book = () => {
       dispatch(getCashbookById(id));
     }
     }, [id,dispatch]);
-    if (status === "loading") {
-      return <Loader/>;
-    }
+    // if (status === "loading") {
+    //   return <Loader/>;
+    // }
     if (status === "failed") {
       return <PageNotFound/>;
     }
