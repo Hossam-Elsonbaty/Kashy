@@ -3,10 +3,9 @@ import { IoSettings } from "react-icons/io5";
 import { useState } from "react";
 import './_footer.scss'
 import { Link } from "react-router-dom";
-import { Layers2 } from "lucide-react";
+import { Layers2 ,CreditCard} from "lucide-react";
 const Footer = () => {
-  const [activeTab, setActiveTab] = useState<'cashbooks' | 'settings' | 'categories'>('cashbooks');
-  
+  const [activeTab, setActiveTab] = useState<'cashbooks' | 'settings' | 'categories'|'PaymentMethods'>('cashbooks');
   return (
     <footer className="home-footer bg-white">
       <div 
@@ -20,8 +19,15 @@ const Footer = () => {
         onClick={() => setActiveTab('categories')} 
         className={`col flex-center ${activeTab === 'categories' ? 'active' : ''}`}
       >
-        <Layers2 className={activeTab === 'settings' ? 'active' : ''}/>
+        <Layers2 className={activeTab === 'categories' ? 'active w-5' : 'w-5'}/>
         <p className={activeTab === 'categories' ? 'active' : ''}>Categories</p>
+      </Link>
+      <Link to="/payment-methods"
+        onClick={() => setActiveTab('PaymentMethods')} 
+        className={`col flex-center ${activeTab === 'PaymentMethods' ? 'active' : ''}`}
+      >
+        <CreditCard className={activeTab === 'PaymentMethods' ? 'active w-5' : 'w-5'}/>
+        <p className={activeTab === 'PaymentMethods' ? 'active' : ''}>PaymentMethods</p>
       </Link>
       <Link to="/settings"
         onClick={() => setActiveTab('settings')} 

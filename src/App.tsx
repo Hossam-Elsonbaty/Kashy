@@ -13,6 +13,7 @@ import PhotoScreen from './pages/Settings/pages/photoScreen';
 import SecurityScreen from './pages/Settings/pages/security';
 import DeleteAccountScreen from './pages/Settings/pages/deleteAccount';
 import Categories from './pages/Categories/categories';
+import PaymentMethods from './pages/PaymentMethods/PaymentMethods';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/sign-up" element={<Signup />} />
       <Route path="/categories" element={<Categories />}/>
+      <Route path="/payment-methods" element={<PaymentMethods />}/>
       <Route path="/settings" element={<Settings />}/>
       <Route path="/settings/profile" element={<ProfileScreen />} />
       <Route path="/settings/profile-pic" element={<PhotoScreen />} />
