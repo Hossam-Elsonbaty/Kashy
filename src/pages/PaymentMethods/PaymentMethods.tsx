@@ -89,9 +89,9 @@ const PaymentMethods = () => {
   if (status === "loading") {
     return <Loader/>;
   }
-  // if (status === "failed") {
-  //   return <PageNotFound/>;
-  // }
+  if (status === "failed") {
+    return <PageNotFound/>;
+  }
   const handleUpdate = (item:PaymentMethod)=>{
     setIsUpdate(true)
     setCatToUpdateID(item.id)
