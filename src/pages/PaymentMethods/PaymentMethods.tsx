@@ -53,7 +53,6 @@ const PaymentMethods = () => {
         await instance.put(`/api/PaymentMethod/${catToUpdateID}`,{
           id:catToUpdateID,
           name:catToUpdate,
-          type:0
         })
         dispatch(PaymentMethodsAction())
         toast.success("PaymentMethod update successfully");
