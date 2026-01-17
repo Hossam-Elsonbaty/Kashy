@@ -1,68 +1,39 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import  { useState } from "react";
 import { AlertCircle, AlertTriangle, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { Toaster } from "react-hot-toast";
+import toast,{ Toaster } from "react-hot-toast";
+import instance from "../../../instance";
 
 export default function DeleteAccountScreen() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
-
   const handleDeleteAccount = async () => {
     setIsDeleting(true)
     try {
-      const userDataString = localStorage.getItem("userData");
+      const userDataString = localStorage.getItem("user");
       if (!userDataString) {
-        alert(
-          lang === "ar" ? "لم يتم العثور على بيانات المستخدم" : "User data not found"
-        );
+        toast.error("User data not found");
         return;
       }
-
-      const userData = JSON.parse(userDataString);
       setIsDeleting(true);
-
-      const token = localStorage.getItem("token");
-      const response = await fetch(
-        `https://darreb-academy-backend.vercel.app/api/users/${userData._id}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to delete account");
+      const response = await instance.delete(`/api/User`);
+      if (!response.status) {
+        const errorData = await response;
+        throw new Error(errorData.data.message || "Failed to delete account");
       }
-
-      // Clear all stored data
       localStorage.removeItem("token");
-      localStorage.removeItem("userData");
-
+      localStorage.removeItem("user");
       setIsModalOpen(false);
-
-      // Show success message
-      alert(
-        lang === "ar"
-          ? "تم حذف حسابك بنجاح"
-          : "Your account has been deleted successfully"
-      );
-
-      // Redirect to home page
-      window.location.assign = "/login";
+      toast.success("Your account has been deleted successfully");
+      window.location.assign("/login");
     } catch (error: any) {
       console.error("Delete account error:", error);
-      alert(
-        error.message ||
-          (lang === "ar" ? "فشل حذف الحساب" : "Failed to delete account")
-      );
+      toast.error("Failed to delete account");
     } finally {
       setIsDeleting(false);
     }
   };
-
   const showDeleteConfirmation = () => {
     setIsModalOpen(true);
   };
