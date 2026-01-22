@@ -43,7 +43,7 @@
 
 :root {
   --icon-background : #70520014;
-  --main-color : oklch(0.795 0.184 86.047);
+  --main-color : rgb(240, 177, 0);
   --background-w-gray:oklch(91.279% 0.0001 271.152);
   --text-color : rgba(0, 0, 0, 0.499);
   --dark-gray : rgb(55 55 55);

@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import "./_book.scss";
 import BookFilter from "./components/filter/Filter";
 import Navbar from "./components/navbar/Navbar";
 import { IoIosArrowForward } from "react-icons/io";
@@ -96,7 +95,7 @@ const Book = () => {
     setOpen(true)
   }
   return (
-    <main className="book-main">
+    <main className="mb-24">
       <Toaster position="top-center"/>
       <ConfirmDelete
         isOpen={isModalOpen}
@@ -106,40 +105,40 @@ const Book = () => {
       <DialogDemo open={open} onOpenChange={setOpen} isUpdate={isUpdate} book_name={currentCashbook?currentCashbook.name:""} id={id||""}/>
       <Navbar setIsDropdownOpen={setIsDropdownOpen} book_name={currentCashbook?currentCashbook.name:""}/>
       <BookFilter />
-      <section className="net-balance">
-        <div className="net">
-          <p>Net Balance</p>
-          <p>{currentCashbook?.netBalance}</p>
+      <section className=" bg-gray-100 shadow-xs m-3 rounded-lg">
+        <div className=" flex justify-between p-3 border-b border-gray-200">
+          <p className="font-bold text-gray-800">Net Balance</p>
+          <p className="font-bold text-gray-800">{currentCashbook?.netBalance}</p>
         </div>
-        <div className="in-out">
-          <p>
-            <span>Total In</span>
-            <span className="text-success">{currentCashbook?.totalIn}</span>
+        <div className="p-3 border-b border-gray-200 text-sm">
+          <p className="flex justify-between text-gray-800">
+            <span className="font-[500]">Total In</span>
+            <span className="text-success font-[500] text-green-700">{currentCashbook?.totalIn}</span>
           </p>
-          <p>
-            <span>Total Out</span>
-            <span className="text-danger">{currentCashbook?.totalOut}</span>
+          <p className="flex justify-between text-gray-800">
+            <span className="font-[500]">Total Out</span>
+            <span className="text-danger font-[500] text-red-700">{currentCashbook?.totalOut}</span>
           </p>
         </div>
-        <button className="btn view-reports">
-          <p>View reports</p>
-          <IoIosArrowForward className="icon"/>
+        <button className="w-full p-3 flex items-center justify-center text-sm gap-2.5">
+          <p className="font-normal uppercase text-yellow-400">View reports</p>
+          <IoIosArrowForward className="text-sm text-yellow-400"/>
         </button>
       </section>
-      <div className="entries-line">
-        <span></span>
-        <span>Showing {currentCashbook?.totalEntries} entries</span>
-        <span></span>
+      <div className="flex justify-between items-center m-3">
+        <span className="w-[30%] h-px bg-gray-300"></span>
+        <span className="text-xs font-bold text-gray-800">Showing {currentCashbook?.totalEntries} entries</span>
+        <span className="w-[30%] h-px bg-gray-300"></span>
       </div>
       <TransactionsGroup entries={currentCashbook?.groupedEntries ?? []}/>
-      <footer>
-        <button className="btn" onClick={()=>handleNavigate("in")}>
-          <FiPlus />
-          <span>CASH IN</span>
+      <footer className="flex justify-center items-center p-4 fixed bottom-0 bg-white w-full gap-3.5">
+        <button className=" bg-green-700 gap-1.5 py-2.5 min-w-[40%] flex justify-center items-center rounded-md  text-sm font-medium mb-4" onClick={()=>handleNavigate("in")}>
+          <FiPlus className="text-white"/>
+          <span className="text-white">CASH IN</span>
         </button>
-        <button className="btn" onClick={()=>handleNavigate("out")}>
-          <FiMinus />
-          <span>CASH OUT</span>
+        <button className=" bg-red-700 gap-1.5 py-2.5 min-w-[40%] flex justify-center items-center rounded-md text-sm font-medium mb-4" onClick={()=>handleNavigate("out")}>
+          <FiMinus className="text-white"/>
+          <span className="text-white">CASH OUT</span>
         </button>
       </footer>
       {

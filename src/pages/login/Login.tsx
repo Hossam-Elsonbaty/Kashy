@@ -2,7 +2,6 @@ import axios from "axios";
 import logo from '../../assets/sonbaty cashbook2.png';
 import { useState, type ChangeEvent, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import './_login.scss'
 import type { LoginFormData, LoginFormErrors } from "../../models/register";
 import { FaRegEyeSlash, FaRegEye } from "react-icons/fa6";
 const Login = () => {

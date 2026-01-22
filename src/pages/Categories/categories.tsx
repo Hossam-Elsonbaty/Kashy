@@ -8,10 +8,11 @@ import type { AppDispatch } from "../../store/Store";
 import { categoriesAction } from "../../store/slices/categoriesSlice";
 import Loader from "../../components/Loader";
 import PageNotFound from "../../components/PageNotFound";
-import { Layers2, Pencil, Trash2 } from "lucide-react";
+import { Pencil, Trash2 } from "lucide-react";
 import toast, { Toaster } from 'react-hot-toast';
 import ConfirmDelete from "../../components/ConfirmDelete";
 import Footer from "../home/components/footer/Footer";
+import { BiSolidCategory } from "react-icons/bi";
 
 export interface Category {
   id: string;
@@ -123,7 +124,7 @@ const Categories = () => {
           currentCategories?.map((item:Category)=>
           <div key={item.id} className="bg-gray-200 p-2 flex items-center rounded-2xl gap-5">
             <span className="bg-gray-800 p-2 rounded-[50%] w-10 h-10 items-center flex justify-center">
-              <Layers2 className="w-5 text-amber-400 "/>
+              <BiSolidCategory className="text-[20px] text-amber-400 "/>
             </span>
             <p className="capitalize">{item.name}</p>
             <div className="ml-auto mr-2 flex gap-3 items-center">

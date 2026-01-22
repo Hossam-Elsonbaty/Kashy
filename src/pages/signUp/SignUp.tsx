@@ -3,7 +3,6 @@ import { useState, type ChangeEvent, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import logo from '../../assets/sonbaty cashbook2.png';
-import '../login/_login.scss';
 import { FaRegEyeSlash, FaRegEye } from "react-icons/fa6";
 import type { SignupFormData, SignupFormErrors } from "../../models/register";
 const Signup = () => {
