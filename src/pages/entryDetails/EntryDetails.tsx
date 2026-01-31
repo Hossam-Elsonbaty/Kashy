@@ -5,11 +5,12 @@ import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import instance from "../../instance";
 import { useNavigate, useParams } from "react-router-dom";
-import { FaWhatsapp } from "react-icons/fa";
 // import { HiDotsVertical } from "react-icons/hi";
 import toast, { Toaster } from "react-hot-toast";
 import ConfirmDelete from "../../components/ConfirmDelete";
 import Loader from "../../components/Loader";
+import { PiTrashSimpleBold } from "react-icons/pi";
+
 interface EntryDetailsProps {
   id: string;
   name: string;
@@ -23,7 +24,6 @@ interface EntryDetailsProps {
   entryType: number;
 }
 export default function EntryDetails() {
-  const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(true)
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [entryDetails, setEntryDetails] = useState<EntryDetailsProps>();
@@ -47,7 +47,6 @@ export default function EntryDetails() {
       .then((response) => {
         console.log(response.data);
         toast.success("Successfully deleted")
-        setIsDropdownOpen(false)
         setIsModalOpen(false)
         setTimeout(()=>{
           navigate(-1)
@@ -58,6 +57,7 @@ export default function EntryDetails() {
         console.log(error);
       });
   }
+  
   const formattedDate = entryDetails?.createdAt
     ? format(new Date(entryDetails.createdAt), "dd MMM yyyy, hh:mm a")
     : "";
@@ -72,25 +72,6 @@ export default function EntryDetails() {
     <div className="min-h-screen bg-gray-50 flex flex-col">
       <Toaster position="top-center"/>
       <ConfirmDelete isOpen={isModalOpen} handleOpen={()=>setIsModalOpen(false)} handleDelete={handleDeleteEntry}/>
-      {/* Options dropdown*/}
-      <div
-        id="dropdownDots"
-        className={`${isDropdownOpen ? "block" : "hidden"} z-10 absolute right-12 top-4  bg-gray-200 divide-y p-2 divide-gray-100 rounded-lg custom-shadow w-24`}
-      >
-        <ul
-          className="text-sm flex flex-col gap-2"
-          aria-labelledby="dropdownMenuIconButton"
-        >
-          <li className="">
-            <button
-            onClick={()=>setIsModalOpen(true)}
-              className="block hover:bg-red-800 text-white  bg-red-700 p-1 med-rounded text-center w-full"
-            >
-              Delete
-            </button>
-          </li>
-        </ul>
-      </div>
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b bg-white">
         <div className="flex items-center gap-2">
@@ -99,9 +80,9 @@ export default function EntryDetails() {
           </button>
           <h2 className="font-medium text-gray-800">Entry Details</h2>
         </div>
-        {/* <button onClick={()=>setIsDropdownOpen(!isDropdownOpen)}>
-          <HiDotsVertical className="w-5 h-5 text-gray-800" />
-        </button> */}
+        <button onClick={()=>setIsModalOpen(true)}>
+          <PiTrashSimpleBold className="text-lg text-red-800" />
+        </button>
       </div>
       {/* Content */}
       <div className="p-4 flex-1">
@@ -123,6 +104,11 @@ export default function EntryDetails() {
               }`}
             >
               {entryDetails?.amount}
+            </p>
+            <p
+              className="text-xs text-gray-800 "
+            >
+              {entryDetails?.name}
             </p>
             {/* Payment Method */}
             <div className="flex flex-wrap gap-2">
@@ -180,12 +166,6 @@ export default function EntryDetails() {
             </p>
           )}
         </div>
-      </div>
-      {/* Bottom Share Button */}
-      <div className="p-4 bg-white border-t">
-        <Button className="w-full bg-green-600 hover:bg-green-700 text-white flex gap-2">
-          <FaWhatsapp className="text-2xl" /> Share Entry
-        </Button>
       </div>
     </div>
   );

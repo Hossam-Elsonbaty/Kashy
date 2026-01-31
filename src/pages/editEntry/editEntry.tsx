@@ -9,8 +9,8 @@ import { useNavigate, useParams } from "react-router-dom"
 import instance from "../../instance"
 import toast, { Toaster } from "react-hot-toast"
 import { ArrowLeft } from "lucide-react";
-import { PiTrashSimpleBold } from "react-icons/pi";
-import ConfirmDelete from "../../components/ConfirmDelete"
+// import { PiTrashSimpleBold } from "react-icons/pi";
+// import ConfirmDelete from "../../components/ConfirmDelete"
 import Loader from "../../components/Loader"
 import { useDispatch, useSelector } from "react-redux"
 import type { AppDispatch } from "../../store/Store"
@@ -37,7 +37,7 @@ const EditEntry = () => {
   const { entryId } = useParams()
   const navigate = useNavigate()
   const [loading, setLoading] = useState<boolean>(true)
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+  // const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [formData, setFormData] = useState({
     cashbookId: "",
     amount: 0,
@@ -83,21 +83,21 @@ const EditEntry = () => {
   const handleChange = (field: string, value: string | number) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
   }
-  const handleDeleteEntry = ()=> {
-    instance
-      .delete(`/api/entry/${entryId}`)
-      .then((response) => {
-        console.log(response.data);
-        toast.success("Successfully deleted")
-        setIsModalOpen(false)
-        setTimeout(()=>{
-          navigate(-2)
-        },600)
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
+  // const handleDeleteEntry = ()=> {
+  //   instance
+  //     .delete(`/api/entry/${entryId}`)
+  //     .then((response) => {
+  //       console.log(response.data);
+  //       toast.success("Successfully deleted")
+  //       setIsModalOpen(false)
+  //       setTimeout(()=>{
+  //         navigate(-2)
+  //       },600)
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     console.log(formData);
@@ -135,7 +135,7 @@ const EditEntry = () => {
   return (
     <main className="max-w-md mx-auto flex flex-col gap-3 h-dvh">
       <Toaster position="top-center" />
-      <ConfirmDelete isOpen={isModalOpen} handleOpen={()=>setIsModalOpen(false)} handleDelete={handleDeleteEntry}/>
+      {/* <ConfirmDelete isOpen={isModalOpen} handleOpen={()=>setIsModalOpen(false)} handleDelete={handleDeleteEntry}/> */}
       <div className="flex items-center justify-between p-4 border-b bg-white">
         <div className="flex items-center gap-3">
           <button onClick={()=>navigate(-1)}>
@@ -143,11 +143,11 @@ const EditEntry = () => {
           </button>
           <h2 className="font-medium text-gray-800">Edit Entry</h2>
         </div>
-        <button 
+        {/* <button 
         onClick={()=>setIsModalOpen(true)}
         >
           <PiTrashSimpleBold className="w-5 h-5 text-red-800" />
-        </button>
+        </button> */}
       </div>
       <form onSubmit={handleSubmit} className="flex flex-col p-3 gap-10 h-full">
         <div className="flex gap-2">
