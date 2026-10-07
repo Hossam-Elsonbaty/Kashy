@@ -5,9 +5,6 @@ import {  useNavigate } from 'react-router-dom';
 import { ArrowLeft } from "lucide-react";
 
 const BookNavbar = ({setIsDropdownOpen,book_name}:{setIsDropdownOpen: (open: boolean) => void;book_name:string}) => {
-  // const location = useLocation();
-  // const searchParams = new URLSearchParams(location.search);
-  // const book_name = searchParams.get("name");
   const navigate = useNavigate();
   return (
     <nav className='book-navbar sticky top-0 flex items-center justify-between p-3 bg-white border-b border-gray-200'>

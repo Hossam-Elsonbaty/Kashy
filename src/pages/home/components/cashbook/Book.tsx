@@ -25,11 +25,11 @@ const Book = ({ item }: { item: Item }) => {
   return (
     <>
       <section
-        className="mt-2 flex cursor-pointer items-center gap-[10px] px-4 py-2"
+        className="m-2 flex cursor-pointer items-center gap-[10px] px-4 py-2 bg-[#eee] rounded-lg"
         key={item.id}
         onClick={() => navigate(`/book/${item.id}?name=${item.name}`)}
       >
-        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#70520014]">
+        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#7052001c]">
           <IoMdWallet className="text-[24px] text-yellow-500" />
         </div>
         <div className="book-info">
