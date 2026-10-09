@@ -13,6 +13,9 @@ import { defineConfig } from "vite"
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss()],
+  optimizeDeps: {
+    include: ["html2canvas", "jspdf"],
+  },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

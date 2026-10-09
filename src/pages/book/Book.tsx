@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import BookFilter from "./components/filter/Filter";
 import Navbar from "./components/navbar/Navbar";
-import { IoIosArrowForward } from "react-icons/io";
+// import { IoIosArrowForward } from "react-icons/io";
 import { FiPlus, FiMinus } from "react-icons/fi";
 import TransactionsGroup from "./components/transactionsGroup/TransactionsGroup";
 import { useEffect, useState } from "react";
@@ -16,17 +16,19 @@ import { Pencil, Trash2 } from "lucide-react";
 import DialogDemo from "../../components/DialogDemo";
 import { getCashbookById } from "../../store/slices/singleCashbookSlice";
 import PageNotFound from "../../components/PageNotFound";
-interface Entries {
+export interface Entries {
   amount: number;
   balanceAfter: number;
-  categoryName: null;
+  categoryId?: string | null;
+  categoryName: string | null;
   createdAtDate: string;
   createdAtTime: string;
   createdBy: string;
   entryType: number;
   id: string;
   name: string;
-  paymentMethodName: null;
+  paymentMethodId?: string | null;
+  paymentMethodName: string | null;
 }
 export interface GroupedEntries {
   entries?: Entries[];
@@ -103,7 +105,11 @@ const Book = () => {
         handleDelete={handleDeleteEntry}
       />
       <DialogDemo open={open} onOpenChange={setOpen} isUpdate={isUpdate} book_name={currentCashbook?currentCashbook.name:""} id={id||""}/>
-      <Navbar setIsDropdownOpen={setIsDropdownOpen} book_name={currentCashbook?currentCashbook.name:""}/>
+      <Navbar
+        setIsDropdownOpen={setIsDropdownOpen}
+        book_name={currentCashbook ? currentCashbook.name : ""}
+        cashbookId={id ?? ""}
+      />
       <BookFilter />
       <section className=" bg-gray-100 shadow-xs m-3 rounded-lg">
         <div className=" flex justify-between p-3 border-b border-gray-200">
@@ -120,17 +126,20 @@ const Book = () => {
             <span className="text-danger font-[500] text-red-700">{currentCashbook?.totalOut}</span>
           </p>
         </div>
-        <button className="w-full p-3 flex items-center justify-center text-sm gap-2.5">
+        {/* <button className="w-full p-3 flex items-center justify-center text-sm gap-2.5">
           <p className="font-normal uppercase text-yellow-400">View reports</p>
           <IoIosArrowForward className="text-sm text-yellow-400"/>
-        </button>
+        </button> */}
       </section>
       <div className="flex justify-between items-center m-3">
         <span className="w-[30%] h-px bg-gray-300"></span>
         <span className="text-xs font-bold text-gray-800">Showing {currentCashbook?.totalEntries} entries</span>
         <span className="w-[30%] h-px bg-gray-300"></span>
       </div>
-      <TransactionsGroup entries={currentCashbook?.groupedEntries ?? []}/>
+      <TransactionsGroup
+        entries={currentCashbook?.groupedEntries ?? []}
+        sourceCashbookId={id ?? ""}
+      />
       <footer className="flex justify-center items-center p-4 fixed bottom-0 bg-white w-full gap-3.5">
         <button className=" bg-green-700 gap-1.5 py-2.5 min-w-[40%] flex justify-center items-center rounded-md  text-sm font-medium mb-4" onClick={()=>handleNavigate("in")}>
           <FiPlus className="text-white"/>

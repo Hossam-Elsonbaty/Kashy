@@ -14,12 +14,15 @@ import SecurityScreen from './pages/Settings/pages/security';
 import DeleteAccountScreen from './pages/Settings/pages/deleteAccount';
 import Categories from './pages/Categories/categories';
 import PaymentMethods from './pages/PaymentMethods/PaymentMethods';
+import ForgotPassword from './pages/login/ForgotPassword';
+import CashbookReport from './pages/book/CashbookReport';
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/sign-up" element={<Signup />} />
       <Route path="/categories" element={<Categories />}/>
       <Route path="/payment-methods" element={<PaymentMethods />}/>
@@ -30,6 +33,7 @@ function App() {
       <Route path="/settings/delete-account" element={<DeleteAccountScreen />} />
       {/* <Route path="/book" element={<Book />} /> */} 
       <Route path="/book/:id" element={<Book />} />
+      <Route path="/book/:id/report" element={<CashbookReport />} />
       <Route path="/book/:id/add-cash-entry" element={<AddEntry />} />
       <Route path="/book/:id/:entryId" element={<EntryDetails />} />
       <Route path="/book/:id/:entryId/edit-entry" element={<EditEntry />} />

@@ -38,7 +38,7 @@ const Book = ({ item }: { item: Item }) => {
             {item.updatedAt}
           </p>
         </div>
-        <div className="ml-auto flex items-center gap-[15px]">
+        <div className="ml-auto flex items-center gap-[15px] ">
           <p
             className={`font-medium text-[14px] ${item.balance >= 0 ? "text-green-600" : "text-red-600"}`}
           >

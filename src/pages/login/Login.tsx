@@ -108,7 +108,7 @@ const Login = () => {
             className={errors.password ? "error p-4 w-full rounded-xl bg-gray-200" : "p-4 w-full rounded-xl bg-gray-200"}
             required
           />
-          <button className="absolute right-5 top-11" onClick={()=>setShowPassword(!showPassword)}>
+          <button type="button" className="absolute right-5 top-11" onClick={()=>setShowPassword(!showPassword)}>
             {showPassword?
             <FaRegEye className="text-lg text-gray-400"/>
             :
@@ -116,6 +116,11 @@ const Login = () => {
             }
           </button>
           {errors.password && <span className="error-message">{errors.password}</span>}
+        </div>
+        <div className="-mt-6 text-right">
+          <Link to="/forgot-password" className="text-[#f0b100] font-semibold">
+            Forgot password?
+          </Link>
         </div>
         <button 
           className="w-full bg-[#f0b100] rounded-2xl p-4 text-white "
