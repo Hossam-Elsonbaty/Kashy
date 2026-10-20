@@ -30,14 +30,6 @@ interface CashbookOption {
   name: string;
 }
 
-interface EntryDetails {
-  amount: number;
-  categoryId?: string | null;
-  createdAt: string;
-  name: string;
-  paymentMethodId?: string | null;
-}
-
 const TransactionsGroup = ({
   entries,
   sourceCashbookId,
@@ -52,10 +44,10 @@ const TransactionsGroup = ({
   const [destinationCashbookId, setDestinationCashbookId] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isLoadingCashbooks, setIsLoadingCashbooks] = useState(false);
-  const [isTransferring, setIsTransferring] = useState(false);
+  const [isMoving, setIsMoving] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const handleOpenTransfer = async (
+  const handleOpenMove = async (
     event: React.MouseEvent<HTMLButtonElement>,
     entry: Entries,
   ) => {
@@ -74,58 +66,36 @@ const TransactionsGroup = ({
       }
       setCashbooks(result);
     } catch (error: unknown) {
-      console.error("Failed to load cashbooks for transfer:", error);
+      console.error("Failed to load cashbooks for entry move:", error);
       setErrorMessage("Unable to load your cashbooks. Please try again.");
     } finally {
       setIsLoadingCashbooks(false);
     }
   };
 
-  const handleTransfer = async () => {
+  const handleMove = async () => {
     if (!selectedEntry || !sourceCashbookId || !destinationCashbookId) {
       setErrorMessage("Select a destination cashbook to continue.");
       return;
     }
 
     setErrorMessage("");
-    setIsTransferring(true);
+    setIsMoving(true);
     try {
-      const { data: entryDetails } = await instance.get<EntryDetails>(
-        `/api/entry/${selectedEntry.id}`,
-      );
-      const createdAt = new Date(entryDetails.createdAt);
-      if (Number.isNaN(createdAt.getTime())) {
-        throw new Error("The entry has an invalid creation date.");
-      }
-
-      await instance.post("/api/Cashbook/Transfer", {
-        fromCashbook: sourceCashbookId,
+      await instance.post("/api/Cashbook/MoveEntry", {
+        entryId: selectedEntry.id,
         toCashbook: destinationCashbookId,
-        categoryId: entryDetails.categoryId ?? null,
-        paymentMethodId: entryDetails.paymentMethodId ?? null,
-        amount: entryDetails.amount,
-        creationDate: [
-          createdAt.getFullYear(),
-          String(createdAt.getMonth() + 1).padStart(2, "0"),
-          String(createdAt.getDate()).padStart(2, "0"),
-        ].join("-"),
-        creationTime: [
-          String(createdAt.getHours()).padStart(2, "0"),
-          String(createdAt.getMinutes()).padStart(2, "0"),
-          String(createdAt.getSeconds()).padStart(2, "0"),
-        ].join(":"),
-        name: entryDetails.name,
       });
 
-      toast.success("Entry transferred successfully");
+      toast.success("Entry moved successfully");
       setIsDialogOpen(false);
       dispatch(getCashbookById(sourceCashbookId));
       dispatch(cashbooksAction());
     } catch (error: unknown) {
-      console.error("Entry transfer failed:", error);
-      setErrorMessage("Unable to transfer this entry. Please try again.");
+      console.error("Entry move failed:", error);
+      setErrorMessage("Unable to move this entry. Please try again.");
     } finally {
-      setIsTransferring(false);
+      setIsMoving(false);
     }
   };
 
@@ -148,10 +118,10 @@ const TransactionsGroup = ({
                   </p>
                   <button
                     type="button"
-                    aria-label={`Transfer ${entry.name} to another cashbook`}
-                    title="Transfer entry"
+                    aria-label={`Move ${entry.name} to another cashbook`}
+                    title="Move entry"
                     className="mr-1 rounded-md p-2 text-gray-600 hover:bg-gray-200 hover:text-gray-900"
-                    onClick={(event) => void handleOpenTransfer(event, entry)}
+                    onClick={(event) => void handleOpenMove(event, entry)}
                   >
                     <ArrowLeftRight className="h-4 w-4" />
                   </button>
@@ -179,10 +149,10 @@ const TransactionsGroup = ({
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Transfer entry</DialogTitle>
+            <DialogTitle>Move entry</DialogTitle>
             <DialogDescription>
               {selectedEntry
-                ? `Choose a cashbook to transfer "${selectedEntry.name}" (${selectedEntry.amount}) to.`
+                ? `Choose a cashbook to move "${selectedEntry.name}" (${selectedEntry.amount}) to.`
                 : "Choose a destination cashbook."}
             </DialogDescription>
           </DialogHeader>
@@ -205,7 +175,7 @@ const TransactionsGroup = ({
             </Select>
           ) : (
             <p className="text-sm text-gray-500">
-              No other cashbooks are available for transfer.
+              No other cashbooks are available for moving this entry.
             </p>
           )}
           {errorMessage && (
@@ -216,21 +186,21 @@ const TransactionsGroup = ({
               type="button"
               variant="outline"
               onClick={() => setIsDialogOpen(false)}
-              disabled={isTransferring}
+              disabled={isMoving}
             >
               Cancel
             </Button>
             <Button
               type="button"
-              onClick={() => void handleTransfer()}
+              onClick={() => void handleMove()}
               disabled={
                 isLoadingCashbooks ||
-                isTransferring ||
+                isMoving ||
                 !destinationCashbookId ||
                 cashbooks.filter((cashbook) => cashbook.id !== sourceCashbookId).length === 0
               }
             >
-              {isTransferring ? "Transferring..." : "Transfer"}
+              {isMoving ? "Moving..." : "Move entry"}
             </Button>
           </DialogFooter>
         </DialogContent>
