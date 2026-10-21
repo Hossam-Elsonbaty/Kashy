@@ -3,6 +3,7 @@ import { IoSettings } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { BiSolidCategory } from "react-icons/bi";
 import { MdOutlinePayment } from "react-icons/md";
+import { Bot } from "lucide-react";
 const Footer = () => {
   const params = window.location.pathname;
   return (
@@ -49,6 +50,7 @@ const Footer = () => {
         </p>
       </Link>
 
+      <Link to="/chat" className={`flex flex-col items-center justify-center gap-1 p-2 ${params === "/chat" ? "border-t-2 border-yellow-500" : ""}`}><Bot size={20} className={params === "/chat" ? "text-yellow-500" : "text-gray-500"} /><p className={`text-[10px] font-semibold ${params === "/chat" ? "text-yellow-500" : "text-gray-500"}`}>Assistant</p></Link>
       <Link
         to="/settings"
         className={`col flex flex-col items-center justify-center gap-1 p-2 ${params === "/settings" ? "active border-t-2 border-yellow-500" : ""}`}

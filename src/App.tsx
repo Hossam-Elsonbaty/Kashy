@@ -16,6 +16,8 @@ import Categories from './pages/Categories/categories';
 import PaymentMethods from './pages/PaymentMethods/PaymentMethods';
 import ForgotPassword from './pages/login/ForgotPassword';
 import CashbookReport from './pages/book/CashbookReport';
+import Chat from './pages/chat/Chat';
+import ChatAdmin from './pages/chat/ChatAdmin';
 
 function App() {
   return (
@@ -26,6 +28,8 @@ function App() {
       <Route path="/sign-up" element={<Signup />} />
       <Route path="/categories" element={<Categories />}/>
       <Route path="/payment-methods" element={<PaymentMethods />}/>
+      <Route path="/chat" element={<Chat />} />
+      <Route path="/admin/ai" element={<ChatAdmin />} />
       <Route path="/settings" element={<Settings />}/>
       <Route path="/settings/profile" element={<ProfileScreen />} />
       <Route path="/settings/profile-pic" element={<PhotoScreen />} />

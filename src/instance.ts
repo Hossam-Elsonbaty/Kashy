@@ -1,10 +1,13 @@
 import axios from "axios";
 import { handleChangeLoader } from "./store/slices/loaderSlice.js";
 import { Store } from "./store/Store.js";
+declare module "axios" {
+  interface AxiosRequestConfig { skipGlobalLoader?: boolean }
+}
 
 
 const instance = axios.create({
-  baseURL:"https://kashly.runasp.net",
+  baseURL: import.meta.env.VITE_API_BASE_URL || "https://kashly.runasp.net",
   // timeout:3000,
   // params:{
   //   limit:20
@@ -12,17 +15,14 @@ const instance = axios.create({
 })
 
 instance.interceptors.request.use((config)=>{
-  import("./store/Store.js").then(({ Store }) => {
-    Store.dispatch(handleChangeLoader(true));
-  });
-  Store.dispatch(handleChangeLoader(true))
+  if (!config.skipGlobalLoader) Store.dispatch(handleChangeLoader(true));
   const token = localStorage.getItem('accessToken');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config
 },(error)=>{
-    Store.dispatch(handleChangeLoader(false))
+    if (!error?.config?.skipGlobalLoader) Store.dispatch(handleChangeLoader(false));
     const status = error?.response?.status;
     if (status === 400) {
       console.error("Bad Request:", error.response.data?.message || error.message);
@@ -42,13 +42,10 @@ instance.interceptors.request.use((config)=>{
   }
 )
 instance.interceptors.response.use((config)=>{
-  import("./store/Store.js").then(({ Store }) => {
-    Store.dispatch(handleChangeLoader(false));
-  });
-  Store.dispatch(handleChangeLoader(false))
+  if (!config.config.skipGlobalLoader) Store.dispatch(handleChangeLoader(false));
   return config
 },(error)=>{
-    Store.dispatch(handleChangeLoader(false))
+    if (!error?.config?.skipGlobalLoader) Store.dispatch(handleChangeLoader(false));
     const status = error?.response?.status;
     if (status === 400) {
       console.error("Bad Request:", error.response.data?.message || error.message);
