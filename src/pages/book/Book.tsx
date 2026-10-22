@@ -12,7 +12,8 @@ import ConfirmDelete from "../../components/ConfirmDelete";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch } from "../../store/Store";
 import { cashbooksAction } from "../../store/slices/cashbooksSlice";
-import { Pencil, Trash2 } from "lucide-react";
+import { ArrowLeftRight, Pencil, Trash2 } from "lucide-react";
+import TransferMoneyDialog from "./components/TransferMoneyDialog";
 import DialogDemo from "../../components/DialogDemo";
 import { getCashbookById } from "../../store/slices/singleCashbookSlice";
 import PageNotFound from "../../components/PageNotFound";
@@ -49,6 +50,7 @@ const Book = () => {
   const { currentCashbook, status } = useSelector((state: any) => state.singleCashbook);
   // const [bookData, setBookData] = useState<BookEntries | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [transferOpen, setTransferOpen] = useState(false);
   const [open, setOpen] = useState(false)
   const [isUpdate, setIsUpdate] = useState<boolean>(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false)
@@ -111,6 +113,10 @@ const Book = () => {
         cashbookId={id ?? ""}
       />
       <BookFilter />
+      {id && currentCashbook?.id === id && <>
+        <div className="mx-3 mt-3 flex justify-end"><button type="button" onClick={() => setTransferOpen(true)} className="flex items-center gap-2 rounded-lg border border-yellow-300 bg-yellow-50 px-3 py-2 text-sm font-medium text-yellow-950 hover:bg-yellow-100"><ArrowLeftRight size={16} />Transfer money</button></div>
+        <TransferMoneyDialog key={id} open={transferOpen} onOpenChange={setTransferOpen} sourceId={id} sourceName={currentCashbook.name} />
+      </>}
       <section className=" bg-gray-100 shadow-xs m-3 rounded-lg">
         <div className=" flex justify-between p-3 border-b border-gray-200">
           <p className="font-bold text-gray-800">Net Balance</p>
